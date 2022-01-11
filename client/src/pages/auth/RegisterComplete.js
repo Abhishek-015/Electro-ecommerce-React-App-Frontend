@@ -59,7 +59,7 @@ const RegisterComplete = ({ history }) => {
         <div className="col-md-6 offset-md-3">
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label>Complete Registration</label>
+              <h5>Complete Registration</h5>
               <input
                 type="email"
                 className="form-control "

@@ -1,10 +1,82 @@
-import React from "react";
+import React, { useEffect, useReducer, useState } from "react";
+import { auth } from "../../firebase/firbase";
+import { toast } from "react-toastify";
+import { Button } from "antd";
+import { MailOutlined } from "@ant-design/icons";
+import { useDispatch } from "react-redux";
 
-const Login = ()=>{
-    return(
-        <div>
-            <p>Login</p>
+const Login = ({ history }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const result = await auth.signInWithEmailAndPassword(email, password);
+      const { user } = result;
+      const idTokenResult = await user.getIdTokenResult();
+      dispatch({
+        type: "LOGGED_IN_USER",
+        payload: {
+          email: user.email,
+          token: idTokenResult.token,
+        },
+      });
+      setLoading(false);
+      history.push("/");
+    } catch (error) {
+      toast.error(error.message);
+      setLoading(false);
+    }
+  };
+
+ return loading ? (
+    <h5>Loading...</h5>
+  ) : (
+    <div className="container p-5">
+      <div className="row">
+        <div className="col-md-6 offset-md-3">
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <h5>Login</h5>
+              <input
+                type="email"
+                className="form-control "
+                value={email}
+                placeholder="Email"
+                onChange={(e) => setEmail(e.target.value)}
+                autoFocus
+              />
+            </div>
+            <div className="form-group">
+              <input
+                type="password"
+                className="form-control "
+                value={password}
+                placeholder="Password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <Button
+              onClick={handleSubmit}
+              type="primary"
+              shape="round"
+              className="mb-3"
+              block
+              size="large"
+              icon={<MailOutlined />}
+              disabled={!email || password.length < 6}
+            >
+              Login with Email and Password
+            </Button>
+          </form>
         </div>
-    )
-}
-export default Login
+      </div>
+    </div>
+  );
+};
+export default Login;

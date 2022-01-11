@@ -33,7 +33,7 @@ const Register = () => {
         <div className="col-md-6 offset-md-3">
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label>Register Email</label>
+              <h5>Register Email</h5>
               <input
                 type="email"
                 className="form-control "
