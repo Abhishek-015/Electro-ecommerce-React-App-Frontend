@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { auth } from "../../firebase/firbase";
-import { toast} from "react-toastify";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -10,19 +10,21 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const config = {
-      url:process.env.REACT_APP_REGISTER_REDIRECT_URL,
-      handleCodeInApp:true
-    }
+      url: process.env.REACT_APP_REGISTER_REDIRECT_URL,
+      handleCodeInApp: true,
+    };
 
-    await auth.sendSignInLinkToEmail(email,config);
+    await auth.sendSignInLinkToEmail(email, config);
 
-    toast.success(`Email is sent to ${email}. Click the link to complete your registration.`)
+    toast.success(
+      `Email is sent to ${email}. Click the link to complete your registration.`
+    );
 
     //save user email in local storage
-    window.localStorage.setItem('emailForRegistration',email)
-    
+    window.localStorage.setItem("emailForRegistration", email);
+
     //clearing out the form
-    setEmail('')
+    setEmail("");
   };
 
   return (

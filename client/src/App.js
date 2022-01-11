@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Register from "./pages/auth/Register";
 import Login from "./pages/auth/Login";
 import Header from "./component/nav/Header";
+import RegisterComplete from "./pages/auth/RegisterComplete";
 
 function App() {
   return (
@@ -14,8 +15,9 @@ function App() {
       <ToastContainer />
       <Switch>
         <Route exact path="/" component={Home} />
-        <Route path="/register" component={Register} />
-        <Route path="/login" component={Login} />
+        <Route exact path="/register" component={Register} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/register/complete" component={RegisterComplete} />
       </Switch>
     </>
   );
