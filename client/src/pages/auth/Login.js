@@ -1,8 +1,8 @@
 import React, { useEffect, useReducer, useState } from "react";
-import { auth } from "../../firebase/firbase";
+import { auth, googleAuthProvider } from "../../firebase/firbase";
 import { toast } from "react-toastify";
 import { Button } from "antd";
-import { MailOutlined } from "@ant-design/icons";
+import { MailOutlined, GoogleOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 
 const Login = ({ history }) => {
@@ -34,15 +34,34 @@ const Login = ({ history }) => {
     }
   };
 
- return loading ? (
-    <h5>Loading...</h5>
-  ) : (
+  const googleSubmit = async (e) => {
+    e.preventDefault();
+    auth.signInWithPopup(googleAuthProvider).then(async (result) => {
+      const { user } = result;
+      const idTokenResult = await user.getIdTokenResult();
+      dispatch({
+        type: "LOGGED_IN_USER",
+        payload: {
+          email: user.email,
+          token: idTokenResult.token,
+        },
+      });
+      history.push('/')
+    })
+    .catch(err=>toast.error(err.message))
+  };
+
+  return (
     <div className="container p-5">
       <div className="row">
         <div className="col-md-6 offset-md-3">
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <h5>Login</h5>
+              {loading ? (
+                <h4 className="text-danger">Loading...</h4>
+              ) : (
+                <h5>Login</h5>
+              )}
               <input
                 type="email"
                 className="form-control "
@@ -72,6 +91,17 @@ const Login = ({ history }) => {
               disabled={!email || password.length < 6}
             >
               Login with Email and Password
+            </Button>
+            <Button
+              onClick={googleSubmit}
+              type="danger"
+              shape="round"
+              className="mb-3"
+              icon={<GoogleOutlined />}
+              block
+              size="large"
+            >
+              Login with Google
             </Button>
           </form>
         </div>
