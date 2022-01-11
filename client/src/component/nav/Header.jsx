@@ -11,7 +11,7 @@ import {
 } from "@ant-design/icons";
 
 import { auth } from "../../firebase/firbase";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 
 const { SubMenu } = Menu;
 
@@ -19,6 +19,9 @@ const Header = () => {
     const [current, setCurrent] = useState("home");
     const dispatch = useDispatch()
     const history = useHistory()
+    const {user} = useSelector(state=>({...state}))
+    const {multiFactor:{user:{displayName}}} = auth.currentUser
+    console.log(user,displayName)
 
   const handleClick = (e) => {
     console.log(e.key);
@@ -39,21 +42,21 @@ const Header = () => {
       <Menu.Item key="home" icon={<AppstoreOutlined />}>
         <Link to="/">Home</Link>
       </Menu.Item>
-      <Menu.Item
+     {!user && ( <Menu.Item
         key="register"
         icon={<UserAddOutlined />}
         className="float-right"
       >
         <Link to="/register">Register</Link>
-      </Menu.Item>
-      <Menu.Item key="login" icon={<UserOutlined />} className="float-right">
+      </Menu.Item>)}
+     {!user && ( <Menu.Item key="login" icon={<UserOutlined />} className="float-right">
         <Link to="/login">Login</Link>
-      </Menu.Item>
-      <SubMenu key="username" icon={<SettingOutlined />} title="Username">
+      </Menu.Item>)}
+      {user && (<SubMenu key="username" icon={<SettingOutlined />} title={displayName} className="float-right">
         <Menu.Item key="setting:1">Option 1</Menu.Item>
         <Menu.Item key="setting:2">Option 2</Menu.Item>
         <Menu.Item onClick={logOut} icon={<LogoutOutlined/>}>LogOut</Menu.Item>
-      </SubMenu>
+      </SubMenu>)}
     </Menu>
   );
 };
