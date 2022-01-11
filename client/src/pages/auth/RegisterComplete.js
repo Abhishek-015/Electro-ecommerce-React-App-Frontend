@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { auth } from "../../firebase/firbase";
 import { toast } from "react-toastify";
 
@@ -8,25 +8,50 @@ const RegisterComplete = ({ history }) => {
 
   const handleChange = (e) => setPassword(e.target.value);
 
+  useEffect(() => {
+    setEmail(window.localStorage.getItem("emailForRegistration"));
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    //validation
+
+    if (!email || !password) {
+      toast.error("Password is required");
+      return;
+    }
+    if (password.length < 6) {
+      toast.error("Password should be atleast 6 charachter long");
+      return;
+    }
 
     try {
       const result = await auth.signInWithEmailLink(
         email,
         window.location.href
       );
-      console.log(result);
+
+      if (result.user.emailVerified) {
+        // delete the user gmail from local storage
+        window.localStorage.removeItem("emailForRegistration");
+
+        // get the user id and token and update the password to firebase
+        let user = auth.currentUser;
+        await user.updatePassword(password);
+        const idTokenResult = await user.getIdTokenResult();
+
+        //populate the details to redux store
+        console.log("user", user, "idTokenResult", idTokenResult);
+
+        //redirect
+        history.push('/')
+      }
     } catch (error) {
       console.log("error", error);
+      toast.error(error.message);
     }
   };
-
-  useEffect(() => {
-    setEmail(window.localStorage.getItem("emailForRegistration"));
-    console.log(window.localStorage.getItem("emailForRegistration"));
-    console.log(window.location.href);
-  }, []);
 
   return (
     <div className="container p-5">
