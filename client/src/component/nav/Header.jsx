@@ -20,11 +20,8 @@ const Header = () => {
     const dispatch = useDispatch()
     const history = useHistory()
     const {user} = useSelector(state=>({...state}))
-    const {multiFactor:{user:{displayName}}} = auth.currentUser
-    console.log(user,displayName)
 
   const handleClick = (e) => {
-    console.log(e.key);
     setCurrent(e.key);
   };
 
@@ -52,7 +49,7 @@ const Header = () => {
      {!user && ( <Menu.Item key="login" icon={<UserOutlined />} className="float-right">
         <Link to="/login">Login</Link>
       </Menu.Item>)}
-      {user && (<SubMenu key="username" icon={<SettingOutlined />} title={displayName} className="float-right">
+      {user && (<SubMenu key="username" icon={<SettingOutlined />} title={user.email.split('@')[0]} className="float-right">
         <Menu.Item key="setting:1">Option 1</Menu.Item>
         <Menu.Item key="setting:2">Option 2</Menu.Item>
         <Menu.Item onClick={logOut} icon={<LogoutOutlined/>}>LogOut</Menu.Item>

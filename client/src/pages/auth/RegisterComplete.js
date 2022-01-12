@@ -42,7 +42,7 @@ const RegisterComplete = ({ history }) => {
         const idTokenResult = await user.getIdTokenResult();
 
         //populate the details to redux store
-        console.log("user", user, "idTokenResult", idTokenResult);
+        
 
         //redirect
         history.push('/')
