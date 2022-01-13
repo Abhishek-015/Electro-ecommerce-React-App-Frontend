@@ -12,8 +12,10 @@ import RegisterComplete from "./pages/auth/RegisterComplete";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import UserHistory from "./pages/user/UserHistory";
 import UserRoute from "./component/routes/UserRoute";
+import AdminRoute from "./component/routes/AdminRoute";
 import UserPassword from "./pages/user/UserPassword";
 import UserWishList from "./pages/user/UserWishList";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 
 import { useEffect } from "react";
 import {useDispatch} from 'react-redux'
@@ -67,6 +69,7 @@ function App() {
         <UserRoute exact path='/user/history' component={UserHistory}/>
         <UserRoute exact path='/user/password' component={UserPassword}/>
         <UserRoute exact path='/user/wishlist' component={UserWishList}/>
+        <AdminRoute exact path='/admin/dashboard' component = {AdminDashboard} />
       </Switch>
     </>
   );
