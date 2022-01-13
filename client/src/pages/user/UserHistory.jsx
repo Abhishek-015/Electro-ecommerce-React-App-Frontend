@@ -1,15 +1,9 @@
 import React from "react";
 import UserNav from "../../component/nav/UserNav";
+import UserPanel from "./UserUtils";
 
 const UserHistory = () => (
-  <div className="container-fluid">
-    <div className="row">
-      <div className="col-md-2">
-        <UserNav />
-      </div>
-      <div className="col">User history page</div>
-    </div>
-  </div>
+  <UserPanel UserNav={UserNav} pageText='User History Page'/>
 );
 
 export default UserHistory;
