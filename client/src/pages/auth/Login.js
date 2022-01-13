@@ -9,13 +9,24 @@ import { Link } from "react-router-dom";
 //utils import
 import { createOrUpdateUser } from "../../utils/auth";
 
-
 const Login = ({ history }) => {
   const [email, setEmail] = useState("reactecomm@gmail.com");
   const [password, setPassword] = useState("12345678");
   const [loading, setLoading] = useState(false);
 
   const { user } = useSelector((state) => ({ ...state }));
+
+  const roleBasedRedirect = (res) => {
+    const {role} = res.data
+    history.push(
+      role === "subscriber" ? "/user/history" : "/admin/dashboard"
+    );
+    // if(role==="admin"){
+    //    history.push('/admin/dashboard')
+    //    return
+    //   }
+    // history.push('user/history')
+  };
 
   useEffect(() => {
     if (user && user.token) history.push("/");
@@ -31,10 +42,10 @@ const Login = ({ history }) => {
       const { user } = result;
       const idTokenResult = await user.getIdTokenResult();
 
-      
-      createOrUpdateUser(idTokenResult.token)  //frotend is sending token to backend
-        .then((res) => {                        //frontend got response as a promise from backend after varifying the token
-          const {name,email,picture,role,_id}=res.data
+      createOrUpdateUser(idTokenResult.token) //frotend is sending token to backend
+        .then((res) => {
+          //frontend got response as a promise from backend after varifying the token
+          const { name, email, picture, role, _id } = res.data;
           dispatch({
             type: "LOGGED_IN_USER",
             payload: {
@@ -43,14 +54,13 @@ const Login = ({ history }) => {
               picture,
               token: idTokenResult.token,
               role,
-              _id
+              _id,
             },
           });
+          setLoading(false);
+          roleBasedRedirect(res);
         })
         .catch((error) => toast.error(error.message));
-
-      setLoading(false);
-      history.push("/");
     } catch (error) {
       toast.error(error.message);
       setLoading(false);
@@ -65,21 +75,21 @@ const Login = ({ history }) => {
         const { user } = result;
         const idTokenResult = await user.getIdTokenResult();
         createOrUpdateUser(idTokenResult.token)
-        .then((res) => {
-          const {name,email,picture,role,_id}=res.data
-          dispatch({
-            type: "LOGGED_IN_USER",
-            payload: {
-              name,
-              email,
-              picture,
-              token: idTokenResult.token,
-              role,
-              _id
-            },
-          });
-        })
-        .catch((error) => toast.error(error.message));
+          .then((res) => {
+            const { name, email, picture, role, _id } = res.data;
+            dispatch({
+              type: "LOGGED_IN_USER",
+              payload: {
+                name,
+                email,
+                picture,
+                token: idTokenResult.token,
+                role,
+                _id,
+              },
+            });
+          })
+          .catch((error) => toast.error(error.message));
         history.push("/");
       })
       .catch((err) => toast.error(err.message));
