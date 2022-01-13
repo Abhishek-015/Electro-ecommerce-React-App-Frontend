@@ -5,19 +5,10 @@ import { Button } from "antd";
 import { MailOutlined, GoogleOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import axios from "axios";
 
-const createOrUpdateUser = async (authToken) => {
-  return await axios.post(
-    `${process.env.REACT_APP_API}/create-or-update-user`,
-    {},
-    {
-      headers: {
-        authToken,
-      },
-    }
-  );
-};
+//utils import
+import { createOrUpdateUser } from "../../utils/auth";
+
 
 const Login = ({ history }) => {
   const [email, setEmail] = useState("reactecomm@gmail.com");
@@ -28,7 +19,7 @@ const Login = ({ history }) => {
 
   useEffect(() => {
     if (user && user.token) history.push("/");
-  }, [user]);
+  }, []);
 
   const dispatch = useDispatch();
 
@@ -40,20 +31,26 @@ const Login = ({ history }) => {
       const { user } = result;
       const idTokenResult = await user.getIdTokenResult();
 
-      //frotend is sending token to backend
-      createOrUpdateUser(idTokenResult.token)
-        .then((res) => console.log("create or update response",res))
+      
+      createOrUpdateUser(idTokenResult.token)  //frotend is sending token to backend
+        .then((res) => {                        //frontend got response as a promise from backend after varifying the token
+          const {name,email,picture,role,_id}=res.data
+          dispatch({
+            type: "LOGGED_IN_USER",
+            payload: {
+              name,
+              email,
+              picture,
+              token: idTokenResult.token,
+              role,
+              _id
+            },
+          });
+        })
         .catch((error) => toast.error(error.message));
 
-      // dispatch({
-      //   type: "LOGGED_IN_USER",
-      //   payload: {
-      //     email: user.email,
-      //     token: idTokenResult.token,
-      //   },
-      // });
-      // setLoading(false);
-      // history.push("/");
+      setLoading(false);
+      history.push("/");
     } catch (error) {
       toast.error(error.message);
       setLoading(false);
@@ -67,13 +64,22 @@ const Login = ({ history }) => {
       .then(async (result) => {
         const { user } = result;
         const idTokenResult = await user.getIdTokenResult();
-        dispatch({
-          type: "LOGGED_IN_USER",
-          payload: {
-            email: user.email,
-            token: idTokenResult.token,
-          },
-        });
+        createOrUpdateUser(idTokenResult.token)
+        .then((res) => {
+          const {name,email,picture,role,_id}=res.data
+          dispatch({
+            type: "LOGGED_IN_USER",
+            payload: {
+              name,
+              email,
+              picture,
+              token: idTokenResult.token,
+              role,
+              _id
+            },
+          });
+        })
+        .catch((error) => toast.error(error.message));
         history.push("/");
       })
       .catch((err) => toast.error(err.message));

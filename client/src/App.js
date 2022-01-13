@@ -2,6 +2,7 @@ import { Switch, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { auth } from "./firebase/firbase";
+import { toast } from "react-toastify";
 
 import Home from "./pages/Home";
 import Register from "./pages/auth/Register";
@@ -13,6 +14,9 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 import { useEffect } from "react";
 import {useDispatch} from 'react-redux'
 
+//utils import
+import { currentUser } from "../src/utils/auth";
+
 
 
 function App() {
@@ -23,14 +27,24 @@ function App() {
      const unsubscribe = auth.onAuthStateChanged(async user =>{
        if(user){
          const idTokenResult = await user.getIdTokenResult()
-         console.log(user)
-         dispatch({
-           type:"LOGGED_IN_USER",
-           payload:{
-             email:user.email,
-             token:idTokenResult.token
-           }
+         currentUser(idTokenResult.token)  //frotend is sending token to backend
+         .then((res) => {  
+           console.log(res.data)                      //frontend got response as a promise from backend after varifying the token
+           const {name,email,picture,role,_id}=res.data
+           dispatch({
+             type: "LOGGED_IN_USER",
+             payload: {
+               email,
+               name:email.split('@')[0],
+               picture,
+               token: idTokenResult.token,
+               role,
+               _id
+             },
+           });
          })
+         .catch((error) => toast.error(error.message));
+ 
        }
      })
      return ()=>unsubscribe()

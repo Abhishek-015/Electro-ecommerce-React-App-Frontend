@@ -1,10 +1,18 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { auth } from "../../firebase/firbase";
 import { toast } from "react-toastify";
+import { useDispatch,useSelector } from "react-redux";
+
+//utils import
+import { createOrUpdateUser } from "../../utils/auth";
+
 
 const RegisterComplete = ({ history }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+
+  const {user}=useSelector(state=>({...state}));
 
   const handleChange = (e) => setPassword(e.target.value);
 
@@ -42,7 +50,23 @@ const RegisterComplete = ({ history }) => {
         const idTokenResult = await user.getIdTokenResult();
 
         //populate the details to redux store
-        
+        createOrUpdateUser(idTokenResult.token)  //frotend is sending token to backend
+        .then((res) => {  
+          console.log(res.data)                      //frontend got response as a promise from backend after varifying the token
+          const {name,email,picture,role,_id}=res.data
+          dispatch({
+            type: "LOGGED_IN_USER",
+            payload: {
+              name,
+              email,
+              picture,
+              token: idTokenResult.token,
+              role,
+              _id
+            },
+          });
+        })
+        .catch((error) => toast.error(error.message));
 
         //redirect
         history.push('/')
