@@ -10,7 +10,7 @@ const Register = ({history}) => {
 
   useEffect(() => {
     if (user && user.token) history.push("/");
-  }, [user]);
+  }, [user,history]);
 
   const handleChange = (e) => setEmail(e.target.value);
 

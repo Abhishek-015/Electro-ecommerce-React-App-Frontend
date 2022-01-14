@@ -12,13 +12,11 @@ const RegisterComplete = ({ history }) => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
 
-  const {user}=useSelector(state=>({...state}));
-
   const handleChange = (e) => setPassword(e.target.value);
 
   useEffect(() => {
     setEmail(window.localStorage.getItem("emailForRegistration"));
-  }, []);
+  }, [history]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

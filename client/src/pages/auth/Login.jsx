@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect,useState } from "react";
 import { auth, googleAuthProvider } from "../../firebase/firbase";
 import { toast } from "react-toastify";
 import { Button } from "antd";
@@ -30,7 +30,7 @@ const Login = ({ history }) => {
 
   useEffect(() => {
     if (user && user.token) history.push("/");
-  }, []);
+  }, [user,history]);
 
   const dispatch = useDispatch();
 
