@@ -30,7 +30,7 @@ const Login = ({ history }) => {
 
   useEffect(() => {
     if (user && user.token) history.push("/");
-  }, [user]);
+  }, [user,history]);
 
   const dispatch = useDispatch();
 

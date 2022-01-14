@@ -10,7 +10,7 @@ const UserPanel = ({
   <div className="container-fluid">
     <div className="row">
       <div className="col-md-2">
-        <UserNav />
+        {UserNav}
       </div>
       <div className="col">
         {paswordUpdateForm ? (
