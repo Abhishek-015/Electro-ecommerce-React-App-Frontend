@@ -22,6 +22,7 @@ const SubCategoryCreate = () => {
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [parentCategory, setParentCategory] = useState("");
+  const [subCategories, setSubCategories] = useState([]);
 
   const { user } = useSelector((state) => ({ ...state }));
 
@@ -31,6 +32,7 @@ const SubCategoryCreate = () => {
 
   useEffect(() => {
     loadCategories();
+    loadSubCategories();
   }, []);
 
   const handleChange = (e) => setName(e.target.value);
@@ -44,6 +46,11 @@ const SubCategoryCreate = () => {
       .then((cat) => setCategories(cat.data))
       .catch((err) => console.log(err));
 
+  const loadSubCategories = () =>
+    getSubCategories()
+      .then((sub) => setSubCategories(sub.data))
+      .catch((err) => console.log(err));
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -53,6 +60,7 @@ const SubCategoryCreate = () => {
         setLoading(false);
         setName("");
         toast.success(`"${res.data.name}" is created`);
+        loadSubCategories()
       })
       .catch((err) => {
         console.log(err);
@@ -69,6 +77,7 @@ const SubCategoryCreate = () => {
         .then((res) => {
           setLoading(false);
           toast.error(`"${res.data.name}" is deleted`);
+          loadSubCategories()
         })
         .catch((err) => {
           setLoading(false);
@@ -130,22 +139,22 @@ const SubCategoryCreate = () => {
             setKeyword={setKeyword}
           />
           {/* step-5 */}
-          {/* {categories.filter(searched(keyword)).map((category) => (
-            <div className="alert alert-secondary" key={category._id}>
-              {category.name}
+          {subCategories.filter(searched(keyword)).map((sub) => (
+            <div className="alert alert-secondary" key={sub._id}>
+              {sub.name}
               <span
-                onClick={() => handleRemove(category.slug)}
+                onClick={() => handleRemove(sub.slug)}
                 className="btn btn-sm float-right"
               >
                 <DeleteOutlined className="text-danger" />
               </span>
-              <Link to={`/admin/category/${category.slug}`}>
+              <Link to={`/admin/subCategory/${sub.slug}`}>
                 <span className="btn btn-sm float-right">
                   <EditOutlined className="text-primary" />
                 </span>
               </Link>
             </div>
-          ))} */}
+          ))}
         </div>
       </div>
     </div>
