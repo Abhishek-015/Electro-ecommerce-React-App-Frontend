@@ -21,7 +21,6 @@ const CategoryUpdate = ({ history, match }) => {
 
   const handleChange = (e) => setName(e.target.value);
 
-
   const loadCategory = () =>
     getCategory(slug)
       .then((cat) => {
@@ -49,14 +48,10 @@ const CategoryUpdate = ({ history, match }) => {
       });
   };
 
-  const restProps={handleSubmit,name,handleChange,loading}
+  const restProps = { handleSubmit, name, handleChange, loading };
 
   const createCategoryForm = () => (
-    <CategoryForm
-    btnName="Update"
-    label="Name"
-    {...restProps}
-  />
+    <CategoryForm btnName="Update" label="Name" {...restProps} />
   );
 
   return (

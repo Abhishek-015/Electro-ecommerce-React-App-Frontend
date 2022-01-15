@@ -23,11 +23,22 @@ const CategoryCreate = () => {
 
   const { user } = useSelector((state) => ({ ...state }));
 
+   //searching amd filtering
+  //step-1
+  const [keyword, setKeyword] = useState("");
+
   useEffect(() => {
     loadCategories();
   }, []);
 
   const handleChange = (e) => setName(e.target.value);
+
+  //step-3
+  const handleSearchChange = (e) => setKeyword(e.target.value.toLowerCase());
+
+  //step-4 (HOF)
+  const searched = (keyword) => (category) =>
+    category.name.toLowerCase().includes(keyword);
 
   const loadCategories = () =>
     getCategories()
@@ -93,8 +104,17 @@ const CategoryCreate = () => {
             <h4>Create Category</h4>
           )}
           {createCategoryForm()}
+           {/* step-2 */}
+           <input
+            type="search"
+            placeholder="search category....."
+            value={keyword}
+            onChange={handleSearchChange}
+            className="form-control mb-4"
+          />
           <br />
-          {categories.map((category) => (
+          {/* step-5 */}
+          {categories.filter(searched(keyword)).map((category) => (
             <div className="alert alert-secondary" key={category._id}>
               {category.name}
               <span
