@@ -3,12 +3,12 @@ const slugify = require("slugify");
 
 exports.create = async (req, res) => {
   try {
-    const { name } = req.body;
-    const subcategory = await new SubCategory({ name, slug: slugify(name) }).save();
+    const { name,parent } = req.body;
+    const subcategory = await new SubCategory({ name, slug: slugify(name),parent }).save();
     res.json(subcategory);
   } catch (err) {
     console.log(err);
-    res.status(400).send("Create category failed");
+    res.status(400).send("Create sub-category failed");
   }
 };
 exports.list = async (req, res) =>
@@ -27,7 +27,7 @@ exports.update = async (req, res) => {
     );
     res.json(updated)
   } catch (err) {
-    res.status(400).send("subcategory updation failed");
+    res.status(400).send("sub-category updation failed");
   }
 };
 exports.remove = async (req, res) => {
