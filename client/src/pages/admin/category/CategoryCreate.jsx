@@ -14,6 +14,7 @@ import {
 } from "../../../utils/category";
 
 import AdminNav from "../../../component/nav/AdminNav";
+import CategoryForm from "../../../component/forms/CategoryForm";
 
 const CategoryCreate = () => {
   const [name, setName] = useState("");
@@ -25,6 +26,8 @@ const CategoryCreate = () => {
   useEffect(() => {
     loadCategories();
   }, []);
+
+  const handleChange = (e) => setName(e.target.value);
 
   const loadCategories = () =>
     getCategories()
@@ -52,7 +55,7 @@ const CategoryCreate = () => {
   const handleRemove = async (slug) => {
     if (window.confirm("Delete?")) {
       setLoading(true);
-      
+
       removeCategory(slug, user.token)
         .then((res) => {
           setLoading(false);
@@ -67,27 +70,14 @@ const CategoryCreate = () => {
     }
   };
 
+  const restProps={handleSubmit,name,handleChange,loading}
+
   const createCategoryForm = () => (
-    <form onSubmit={handleSubmit}>
-      <div className="form-group">
-        <label>Name</label>
-        <input
-          type="text"
-          className="form-control"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          autoFocus
-          required
-        />
-        <br />
-        <button
-          className="btn btn-outline-primary btn-sm"
-          disabled={!name || name.length < 2 || loading}
-        >
-          Create
-        </button>
-      </div>
-    </form>
+    <CategoryForm
+      btnName="Create"
+      label="Name"
+      {...restProps}
+    />
   );
 
   return (
@@ -105,7 +95,7 @@ const CategoryCreate = () => {
           {createCategoryForm()}
           <br />
           {categories.map((category) => (
-            <div className="alert alert-success" key={category._id}>
+            <div className="alert alert-secondary" key={category._id}>
               {category.name}
               <span
                 onClick={() => handleRemove(category.slug)}

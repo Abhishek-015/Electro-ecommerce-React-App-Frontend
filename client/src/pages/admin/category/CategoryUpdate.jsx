@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { getCategory, updateCategory } from "../../../utils/category";
 
 import AdminNav from "../../../component/nav/AdminNav";
+import CategoryForm from "../../../component/forms/CategoryForm";
 
 const CategoryUpdate = ({ history, match }) => {
   const [name, setName] = useState("");
@@ -17,6 +18,9 @@ const CategoryUpdate = ({ history, match }) => {
   useEffect(() => {
     loadCategory();
   }, []);
+
+  const handleChange = (e) => setName(e.target.value);
+
 
   const loadCategory = () =>
     getCategory(slug)
@@ -34,7 +38,7 @@ const CategoryUpdate = ({ history, match }) => {
       .then((res) => {
         setLoading(false);
         toast.success(
-          `"${previousCategory.current} is updated to" "${res.data.name}"`
+          `"${previousCategory.current}" is updated to "${res.data.name}"`
         );
         history.push("/admin/category");
       })
@@ -45,27 +49,14 @@ const CategoryUpdate = ({ history, match }) => {
       });
   };
 
+  const restProps={handleSubmit,name,handleChange,loading}
+
   const createCategoryForm = () => (
-    <form onSubmit={handleSubmit}>
-      <div className="form-group">
-        <label>Name</label>
-        <input
-          type="text"
-          className="form-control"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          autoFocus
-          required
-        />
-        <br />
-        <button
-          className="btn btn-outline-primary btn-sm"
-          disabled={!name || name.length < 2 || loading}
-        >
-          Update
-        </button>
-      </div>
-    </form>
+    <CategoryForm
+    btnName="Update"
+    label="Name"
+    {...restProps}
+  />
   );
 
   return (
