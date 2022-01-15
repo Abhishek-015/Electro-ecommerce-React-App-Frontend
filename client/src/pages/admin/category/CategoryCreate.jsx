@@ -15,6 +15,7 @@ import {
 
 import AdminNav from "../../../component/nav/AdminNav";
 import CategoryForm from "../../../component/forms/CategoryForm";
+import LocalSearch from "../../../component/forms/LocalSearch";
 
 const CategoryCreate = () => {
   const [name, setName] = useState("");
@@ -23,7 +24,7 @@ const CategoryCreate = () => {
 
   const { user } = useSelector((state) => ({ ...state }));
 
-   //searching amd filtering
+  //searching amd filtering
   //step-1
   const [keyword, setKeyword] = useState("");
 
@@ -32,9 +33,6 @@ const CategoryCreate = () => {
   }, []);
 
   const handleChange = (e) => setName(e.target.value);
-
-  //step-3
-  const handleSearchChange = (e) => setKeyword(e.target.value.toLowerCase());
 
   //step-4 (HOF)
   const searched = (keyword) => (category) =>
@@ -81,14 +79,10 @@ const CategoryCreate = () => {
     }
   };
 
-  const restProps={handleSubmit,name,handleChange,loading}
+  const restProps = { handleSubmit, name, handleChange, loading };
 
   const createCategoryForm = () => (
-    <CategoryForm
-      btnName="Create"
-      label="Name"
-      {...restProps}
-    />
+    <CategoryForm btnName="Create" label="Name" {...restProps} />
   );
 
   return (
@@ -104,15 +98,12 @@ const CategoryCreate = () => {
             <h4>Create Category</h4>
           )}
           {createCategoryForm()}
-           {/* step-2 */}
-           <input
-            type="search"
-            placeholder="search category....."
-            value={keyword}
-            onChange={handleSearchChange}
-            className="form-control mb-4"
+          {/* step-2 */}
+          <LocalSearch
+            keyword={keyword}
+            filter="search category....."
+            setKeyword={setKeyword}
           />
-          <br />
           {/* step-5 */}
           {categories.filter(searched(keyword)).map((category) => (
             <div className="alert alert-secondary" key={category._id}>
