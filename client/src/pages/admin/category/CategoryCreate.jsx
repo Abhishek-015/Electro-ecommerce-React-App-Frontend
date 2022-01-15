@@ -98,7 +98,7 @@ const CategoryCreate = () => {
             <h4>Create Category</h4>
           )}
           {createCategoryForm()}
-          {/* step-2 */}
+          {/* step-2 and step-3 */}
           <LocalSearch
             keyword={keyword}
             filter="search category....."
