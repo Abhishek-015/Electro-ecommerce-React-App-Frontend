@@ -56,7 +56,7 @@ const CategoryCreate = () => {
       removeCategory(slug, user.token)
         .then((res) => {
           setLoading(false);
-          toast.success(`"${res.data.name}" is deleted`);
+          toast.error(`"${res.data.name}" is deleted`);
           loadCategories();
         })
         .catch((err) => {
@@ -100,7 +100,7 @@ const CategoryCreate = () => {
           {loading ? (
             <h4 className="text-danger">Loading...</h4>
           ) : (
-            <h4>Create product Page</h4>
+            <h4>Create Category</h4>
           )}
           {createCategoryForm()}
           <br />

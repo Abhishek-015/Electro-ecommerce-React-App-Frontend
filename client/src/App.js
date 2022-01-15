@@ -17,6 +17,7 @@ import UserPassword from "./pages/user/UserPassword";
 import UserWishList from "./pages/user/UserWishList";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import CategoryCreate from "./pages/admin/category/CategoryCreate";
+import CategoryUpdate from "./pages/admin/category/CategoryUpdate";
 
 import { useEffect } from "react";
 import {useDispatch} from 'react-redux'
@@ -72,6 +73,7 @@ function App() {
         <UserRoute exact path='/user/wishlist' component={UserWishList}/>
         <AdminRoute exact path='/admin/dashboard' component = {AdminDashboard} />
         <AdminRoute exact path='/admin/category' component = {CategoryCreate} />
+        <AdminRoute exact path='/admin/category/:slug' component = {CategoryUpdate} />
       </Switch>
     </>
   );
