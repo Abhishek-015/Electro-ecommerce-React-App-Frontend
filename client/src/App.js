@@ -19,6 +19,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import CategoryCreate from "./pages/admin/category/CategoryCreate";
 import CategoryUpdate from "./pages/admin/category/CategoryUpdate";
 import SubCategoryCreate from "./pages/admin/subCategory/SubCategoryCreate";
+import SubCategoryUpdate from "./pages/admin/subCategory/SubCategoryUpdate";
 
 import { useEffect } from "react";
 import {useDispatch} from 'react-redux'
@@ -76,6 +77,7 @@ function App() {
         <AdminRoute exact path='/admin/category' component = {CategoryCreate} />
         <AdminRoute exact path='/admin/category/:slug' component = {CategoryUpdate} />
         <AdminRoute exact path='/admin/subCategory' component = {SubCategoryCreate} />
+        <AdminRoute exact path='/admin/subCategory/:slug' component = {SubCategoryUpdate} />
       </Switch>
     </>
   );

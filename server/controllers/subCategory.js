@@ -18,11 +18,11 @@ exports.read = async (req, res) =>
   res.json(await SubCategory.findOne({ slug: req.params.slug }).exec());
 
 exports.update = async (req, res) => {
-  const { name } = req.body;
+  const { name,parent } = req.body;
   try {
     const updated = await SubCategory.findOneAndUpdate(
       { slug: req.params.slug },
-      { name, slug: slugify(name) },
+      { name,parent,slug: slugify(name) },
       { new: true }  // {new : true} is to send the currently updated item in res.json() other wise it will send the old  one
     );
     res.json(updated)
