@@ -6,6 +6,7 @@ const ProductSelectOption = ({
   handleChange,
   colors,
   brands,
+  categories,
 }) => (
   <div className="form-group">
     <label>{heading} : </label>
@@ -15,11 +16,17 @@ const ProductSelectOption = ({
       onChange={handleChange}
     >
       <option className="bg-secondary text-white">Please Select</option>
-      {(selectShipping || colors || brands).map((el) => (
-        <option className="bg-secondary text-white" value={el} key={el}>
-          {el}
-        </option>
-      ))}
+      {selectShipping || colors || brands
+        ? (selectShipping || colors || brands).map((el) => (
+            <option className="bg-secondary text-white" value={el} key={el}>
+              {el}
+            </option>
+          ))
+        : categories.map((el) => (
+            <option className="bg-secondary text-white" value={el.name} key={el._id}>
+              {el.name}
+            </option>
+          ))}
     </select>
   </div>
 );

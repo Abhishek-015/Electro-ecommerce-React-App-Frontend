@@ -8,27 +8,36 @@ import { createProduct } from "../../../utils/product";
 import AdminNav from "../../../component/nav/AdminNav";
 import ProductInput from "../../../component/inputField/productInput";
 import ProductSelectOption from "../../../component/selectOption/productSelectOption";
-import { createCategory } from "../../../utils/category";
+import { getCategories, getCategory } from "../../../utils/category";
 
 const initialState = {
   title: "",
-  description: "",
-  price: "",
+  description: "This is the best product of Apple",
+  price: "150000",
   categories: [],
   category: "",
   subCategory: [],
-  shipping: "",
-  quantity: "",
+  shipping: "Yes",
+  quantity: "50",
   images: [],
   colors: ["Black", "Brown", "Silver", "White", "Blue"],
   brands: ["Apple", "Samsung", "Microsoft", "Lenovo", "ASUS", "HP"],
   color: "",
-  brand: "",
+  brand: "Apple",
 };
 
 const ProductCreate = () => {
   const [values, setValues] = useState(initialState);
+
   const {user} = useSelector(state=>({...state}))
+
+  useEffect(()=>{
+    loadAllCategories()
+  },[])
+
+  const loadAllCategories = () => {
+    getCategories().then(cat=>setValues({...values,categories:cat.data}))
+  }
 
   const {
     title,
@@ -50,12 +59,13 @@ const ProductCreate = () => {
       e.preventDefault()
       createProduct(values,user.token)
       .then(res=>{
-          console.log(res.data)
-          toast.success('Product created')
+          window.alert(`"${res.data.title}" is created`);
+          window.location.reload();
       })
       .catch(err=>{
           console.log(err)
-          if(err.response.status===400) toast.error(err.response.data)
+        //   if(err.response.status===400) toast.error(err.response.data)
+        toast.error(err.response.data.err)
       })
       
   }
@@ -85,6 +95,7 @@ const ProductCreate = () => {
               <ProductInput heading='Quantity' type='number' value={quantity} handleChange={handleChange}/>
               <ProductSelectOption heading='Color' colors={colors} handleChange={handleChange}/>
               <ProductSelectOption heading='Brand' brands={brands} handleChange={handleChange}/>
+              <ProductSelectOption heading='Category' categories={categories} handleChange={handleChange}/>
               <button className="btn btn-outline-info px-4 my-3">Create</button>
           </form>
         </div>
