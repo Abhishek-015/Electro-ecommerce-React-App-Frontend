@@ -1,6 +1,6 @@
 import React from "react";
 
-const ProductInput = ({heading,handleChange,name,value,type}) => (
+const ProductInput = ({ heading, handleChange, value, type }) => (
   <div className="form-group">
     <label>{heading}</label>
     <input
@@ -9,7 +9,7 @@ const ProductInput = ({heading,handleChange,name,value,type}) => (
       className="form-control"
       value={value}
       onChange={handleChange}
-      autoFocus={heading==="Title"}
+      autoFocus={heading === "Title"}
     />
   </div>
 );

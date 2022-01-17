@@ -28,16 +28,19 @@ const initialState = {
 
 const ProductCreate = () => {
   const [values, setValues] = useState(initialState);
+  const [loading, setLoading] = useState(false);
 
-  const {user} = useSelector(state=>({...state}))
+  const { user } = useSelector((state) => ({ ...state }));
 
-  useEffect(()=>{
-    loadAllCategories()
-  },[])
+  useEffect(() => {
+    loadAllCategories();
+  }, []);
 
   const loadAllCategories = () => {
-    getCategories().then(cat=>setValues({...values,categories:cat.data}))
-  }
+    getCategories().then((cat) =>
+      setValues({ ...values, categories: cat.data })
+    );
+  };
 
   const {
     title,
@@ -55,27 +58,29 @@ const ProductCreate = () => {
     brand,
   } = values;
 
-  const handleSubmit = e=> {
-      e.preventDefault()
-      createProduct(values,user.token)
-      .then(res=>{
-          window.alert(`"${res.data.title}" is created`);
-          window.location.reload();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    createProduct(values, user.token)
+      .then((res) => {
+        setLoading(false);
+        window.alert(`"${res.data.title}" is created`);
+        window.location.reload();
       })
-      .catch(err=>{
-          console.log(err)
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
         //   if(err.response.status===400) toast.error(err.response.data)
-        toast.error(err.response.data.err)
-      })
-      
-  }
+        toast.error(err.response.data.err);
+      });
+  };
 
-  const handleChange = ({target}) =>{
-      const {name,value} = target
-      setValues({...values,[name]:value})
-  }
+  const handleChange = ({ target }) => {
+    const { name, value } = target;
+    setValues({ ...values, [name]: value });
+  };
 
-  const selectShipping = ["No","Yes"]
+  const selectShipping = ["No", "Yes"];
 
   return (
     <div className="container-fluid">
@@ -85,18 +90,59 @@ const ProductCreate = () => {
         </div>
 
         <div className="col-md-10">
-          <h4 className="my-3">Product Create</h4>
+          {loading ? (
+            <h4 className="text danger">Loading...</h4>
+          ) : (
+            <h4 className="my-3">Product Create</h4>
+          )}
+
           <hr />
           <form onSubmit={handleSubmit}>
-              <ProductInput heading='Title' type='text' value={title} handleChange={handleChange}/>
-              <ProductInput heading='Description' type='text' value={description} handleChange={handleChange}/>
-              <ProductInput heading='Price' type='number' value={price} handleChange={handleChange}/>
-              <ProductSelectOption heading='Shipping' selectShipping={selectShipping} handleChange={handleChange}/>
-              <ProductInput heading='Quantity' type='number' value={quantity} handleChange={handleChange}/>
-              <ProductSelectOption heading='Color' colors={colors} handleChange={handleChange}/>
-              <ProductSelectOption heading='Brand' brands={brands} handleChange={handleChange}/>
-              <ProductSelectOption heading='Category' categories={categories} handleChange={handleChange}/>
-              <button className="btn btn-outline-info px-4 my-3">Create</button>
+            <ProductInput
+              heading="Title"
+              type="text"
+              value={title}
+              handleChange={handleChange}
+            />
+            <ProductInput
+              heading="Description"
+              type="text"
+              value={description}
+              handleChange={handleChange}
+            />
+            <ProductInput
+              heading="Price"
+              type="number"
+              value={price}
+              handleChange={handleChange}
+            />
+            <ProductSelectOption
+              heading="Shipping"
+              selectShipping={selectShipping}
+              handleChange={handleChange}
+            />
+            <ProductInput
+              heading="Quantity"
+              type="number"
+              value={quantity}
+              handleChange={handleChange}
+            />
+            <ProductSelectOption
+              heading="Color"
+              colors={colors}
+              handleChange={handleChange}
+            />
+            <ProductSelectOption
+              heading="Brand"
+              brands={brands}
+              handleChange={handleChange}
+            />
+            <ProductSelectOption
+              heading="Category"
+              categories={categories}
+              handleChange={handleChange}
+            />
+            <button className="btn btn-outline-info px-4 my-3">Create</button>
           </form>
         </div>
       </div>
