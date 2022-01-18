@@ -5,7 +5,7 @@ const router = express.Router();
 const {authCheck, adminCheck} = require('../middlewares/auth')
 
 //importing controllers
-const {create,read,update,remove,list} = require("../controllers/category");
+const {create,read,update,remove,list,getSubCategory} = require("../controllers/category");
 
 //routes
 router.post('/category',authCheck,adminCheck,create)
@@ -14,5 +14,7 @@ router.get('/category/:slug',read)
 router.put('/category/:slug',authCheck,adminCheck,update)
 router.delete('/category/:slug',authCheck,adminCheck,remove)
 
+//for getting all subcategories at product creating stage on basis of categories
+router.get('/category/subs/:_id',getSubCategory)
 
 module.exports = router;
