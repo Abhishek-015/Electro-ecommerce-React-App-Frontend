@@ -1,34 +1,36 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 
 import { createProduct } from "../../../utils/product";
 
 import AdminNav from "../../../component/nav/AdminNav";
 import ProductInput from "../../../component/inputField/productInput";
 import ProductSelectOption from "../../../component/selectOption/productSelectOption";
-import { getCategories, getCategory } from "../../../utils/category";
+import MultiSelectOption from "../../../component/multiSelectOption/productMultiSelectOption";
+import { getCategories, getCategorySubs } from "../../../utils/category";
 
 const initialState = {
   title: "",
-  description: "This is the best product of Apple",
-  price: "150000",
+  description: "",
+  price: "",
   categories: [],
   category: "",
   subCategory: [],
-  shipping: "Yes",
-  quantity: "50",
+  shipping: "",
+  quantity: "",
   images: [],
   colors: ["Black", "Brown", "Silver", "White", "Blue"],
   brands: ["Apple", "Samsung", "Microsoft", "Lenovo", "ASUS", "HP"],
   color: "",
-  brand: "Apple",
+  brand: "",
 };
 
 const ProductCreate = () => {
   const [values, setValues] = useState(initialState);
   const [loading, setLoading] = useState(false);
+  const [subCategoryOption, setSubCategoryOption] = useState([]);
+  const [showSubCategories,setShowSubCategories] = useState(false);
 
   const { user } = useSelector((state) => ({ ...state }));
 
@@ -78,6 +80,16 @@ const ProductCreate = () => {
   const handleChange = ({ target }) => {
     const { name, value } = target;
     setValues({ ...values, [name]: value });
+  };
+
+  const handleCategoryChange = (e) => {
+    e.preventDefault();
+    setValues({ ...values,subCategory:[], category: e.target.value });
+    getCategorySubs(e.target.value)
+      .then((res) => {
+        setSubCategoryOption(res.data)
+      })
+      setShowSubCategories(true)
   };
 
   const selectShipping = ["No", "Yes"];
@@ -139,8 +151,17 @@ const ProductCreate = () => {
             />
             <ProductSelectOption
               heading="Category"
+              value={category}
               categories={categories}
-              handleChange={handleChange}
+              handleChange={handleCategoryChange}
+            />
+            <MultiSelectOption
+              heading="Sub Category"
+              subCategory={subCategory} 
+              setValues={setValues}
+              values={values}
+              subCategoryOption={subCategoryOption}
+              showSubCategories={showSubCategories}
             />
             <button className="btn btn-outline-info px-4 my-3">Create</button>
           </form>

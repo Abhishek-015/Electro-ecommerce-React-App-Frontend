@@ -1,7 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect,useState } from "react";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 
 import { updateSubCategory, getSubCategory } from "../../../utils/subCategory";
 

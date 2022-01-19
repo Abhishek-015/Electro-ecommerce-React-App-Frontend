@@ -41,9 +41,12 @@ exports.remove = async (req, res) => {
 };
 
 
-exports.getSubCategories = (req,res) => {
-   SubCategory.find({parent:req.params._id}).exec((err,subCat)=>{
-     if(err) console.log(err);
-     res.json(subCat);
-   })
+exports.getSubCategory = async (req,res) => {
+  try{
+   const subCategoryData = await SubCategory.find({parent:req.params._id})
+   res.json(subCategoryData)
+  }catch(err){
+    console.log(err)
+    res.status(400).send("Failed to send subCategory")
+  }
 }

@@ -9,7 +9,6 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import {
   createCategory,
   getCategories,
-  getCategory,
   removeCategory,
 } from "../../../utils/category";
 

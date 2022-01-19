@@ -15,6 +15,6 @@ router.put('/category/:slug',authCheck,adminCheck,update)
 router.delete('/category/:slug',authCheck,adminCheck,remove)
 
 //for getting all subcategories at product creating stage on basis of categories
-router.get('/category/subs/:_id',getSubCategory)
+router.get('/category/subCategory/:_id',getSubCategory)
 
 module.exports = router;

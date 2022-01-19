@@ -1,7 +1,7 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { auth } from "../../firebase/firbase";
 import { toast } from "react-toastify";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 
 //utils import
 import { createOrUpdateUser } from "../../utils/auth";
