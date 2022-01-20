@@ -109,8 +109,9 @@ const ProductCreate = () => {
           )}
 
           <hr />
+          {JSON.stringify(values.images)}
           <div className="p-3">
-            <FileUplaod />
+            <FileUplaod values={values} setValues={setValues} setLoading={setLoading} />
           </div>
           <form onSubmit={handleSubmit}>
             <ProductInput
