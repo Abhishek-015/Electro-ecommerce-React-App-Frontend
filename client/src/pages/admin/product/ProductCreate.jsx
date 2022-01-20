@@ -3,12 +3,13 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 
 import { createProduct } from "../../../utils/product";
+import { getCategories, getCategorySubs } from "../../../utils/category";
 
 import AdminNav from "../../../component/nav/AdminNav";
 import ProductInput from "../../../component/inputField/productInput";
 import ProductSelectOption from "../../../component/selectOption/productSelectOption";
 import MultiSelectOption from "../../../component/multiSelectOption/productMultiSelectOption";
-import { getCategories, getCategorySubs } from "../../../utils/category";
+import FileUplaod from "../../../component/imageUpload/imageUpload";
 
 const initialState = {
   title: "",
@@ -30,7 +31,7 @@ const ProductCreate = () => {
   const [values, setValues] = useState(initialState);
   const [loading, setLoading] = useState(false);
   const [subCategoryOption, setSubCategoryOption] = useState([]);
-  const [showSubCategories,setShowSubCategories] = useState(false);
+  const [showSubCategories, setShowSubCategories] = useState(false);
 
   const { user } = useSelector((state) => ({ ...state }));
 
@@ -84,12 +85,11 @@ const ProductCreate = () => {
 
   const handleCategoryChange = (e) => {
     e.preventDefault();
-    setValues({ ...values,subCategory:[], category: e.target.value });
-    getCategorySubs(e.target.value)
-      .then((res) => {
-        setSubCategoryOption(res.data)
-      })
-      setShowSubCategories(true)
+    setValues({ ...values, subCategory: [], category: e.target.value });
+    getCategorySubs(e.target.value).then((res) => {
+      setSubCategoryOption(res.data);
+    });
+    setShowSubCategories(true);
   };
 
   const selectShipping = ["No", "Yes"];
@@ -109,6 +109,9 @@ const ProductCreate = () => {
           )}
 
           <hr />
+          <div className="p-3">
+            <FileUplaod />
+          </div>
           <form onSubmit={handleSubmit}>
             <ProductInput
               heading="Title"
@@ -157,7 +160,7 @@ const ProductCreate = () => {
             />
             <MultiSelectOption
               heading="Sub Category"
-              subCategory={subCategory} 
+              subCategory={subCategory}
               setValues={setValues}
               values={values}
               subCategoryOption={subCategoryOption}
