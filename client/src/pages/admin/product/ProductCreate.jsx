@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 
+import {LoadingOutlined} from '@ant-design/icons'
+
 import { createProduct } from "../../../utils/product";
 import { getCategories, getCategorySubs } from "../../../utils/category";
 
@@ -103,13 +105,12 @@ const ProductCreate = () => {
 
         <div className="col-md-10">
           {loading ? (
-            <h4 className="text danger">Loading...</h4>
+            <LoadingOutlined className="text-danger m-3 h1"  />
           ) : (
             <h4 className="my-3">Product Create</h4>
           )}
 
           <hr />
-          {JSON.stringify(values.images)}
           <div className="p-3">
             <FileUplaod values={values} setValues={setValues} setLoading={setLoading} />
           </div>

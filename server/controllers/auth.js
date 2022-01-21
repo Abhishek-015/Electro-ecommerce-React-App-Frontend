@@ -9,7 +9,6 @@ exports.createOrUpdateUser = async (req, res) => {
   );
 
   if (user) {
-    console.log("USER UPDATED", user);
     res.json(user);
   } else {
     const newUser = await new User({
