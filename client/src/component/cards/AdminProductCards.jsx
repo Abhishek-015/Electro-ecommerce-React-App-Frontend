@@ -2,10 +2,12 @@ import React from "react";
 import { Card } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import laptopImage from "../../images/computer/laptop.png";
+import { Link } from "react-router-dom";
+
 const { Meta } = Card;
 
-const AdminProductCard = ({ product,removeProduct,handleRemove }) => {
-  const { title, description, images,slug } = product;
+const AdminProductCard = ({ product, removeProduct, handleRemove }) => {
+  const { title, description, images, slug } = product;
   return (
     <Card
       hoverable
@@ -18,11 +20,19 @@ const AdminProductCard = ({ product,removeProduct,handleRemove }) => {
         />
       }
       actions={[
-        <EditOutlined className="text-primary" />,
-        <DeleteOutlined className="text-danger" onClick={()=>handleRemove(slug)}/>,
+        <Link to={`/admin/product/${slug}`}>
+          <EditOutlined className="text-primary" />
+        </Link>,
+        <DeleteOutlined
+          className="text-danger"
+          onClick={() => handleRemove(slug)}
+        />,
       ]}
     >
-      <Meta title={title} description={`${description && description.substring(0,40)}...`} />
+      <Meta
+        title={title}
+        description={`${description && description.substring(0, 40)}...`}
+      />
     </Card>
   );
 };

@@ -22,45 +22,43 @@ import SubCategoryCreate from "./pages/admin/subCategory/SubCategoryCreate";
 import SubCategoryUpdate from "./pages/admin/subCategory/SubCategoryUpdate";
 import ProductCreate from "./pages/admin/product/ProductCreate";
 import AllProducts from "./pages/admin/product/AllProducts";
+import ProductUpdate from "./pages/admin/product/ProductUpdate";
 
 import { useEffect } from "react";
-import {useDispatch} from 'react-redux'
+import { useDispatch } from "react-redux";
 
 //utils import
 import { currentUser } from "../src/utils/auth";
 
-
-
 function App() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   //to check firebase auth state
-  useEffect(()=>{
-     const unsubscribe = auth.onAuthStateChanged(async user =>{
-       if(user){
-         const idTokenResult = await user.getIdTokenResult()
-         currentUser(idTokenResult.token)  //frotend is sending token to backend
-         .then((res) => {  
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        const idTokenResult = await user.getIdTokenResult();
+        currentUser(idTokenResult.token) //frotend is sending token to backend
+          .then((res) => {
             //frontend got response as a promise from backend after varifying the token
-           const {name,email,picture,role,_id}=res.data
-           dispatch({
-             type: "LOGGED_IN_USER",
-             payload: {
-               email,
-               name:email.split('@')[0],
-               picture,
-               token: idTokenResult.token,
-               role,
-               _id
-             },
-           });
-         })
-         .catch((error) => toast.error(error.message));
- 
-       }
-     })
-     return ()=>unsubscribe()
-  },[])
+            const { name, email, picture, role, _id } = res.data;
+            dispatch({
+              type: "LOGGED_IN_USER",
+              payload: {
+                email,
+                name: email.split("@")[0],
+                picture,
+                token: idTokenResult.token,
+                role,
+                _id,
+              },
+            });
+          })
+          .catch((error) => toast.error(error.message));
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
   return (
     <>
@@ -71,17 +69,34 @@ function App() {
         <Route exact path="/register" component={Register} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/register/complete" component={RegisterComplete} />
-        <Route exact path='/forgot/password' component={ForgotPassword}/>
-        <UserRoute exact path='/user/history' component={UserHistory}/>
-        <UserRoute exact path='/user/password' component={UserPassword}/>
-        <UserRoute exact path='/user/wishlist' component={UserWishList}/>
-        <AdminRoute exact path='/admin/dashboard' component = {AdminDashboard} />
-        <AdminRoute exact path='/admin/category' component = {CategoryCreate} />
-        <AdminRoute exact path='/admin/category/:slug' component = {CategoryUpdate} />
-        <AdminRoute exact path='/admin/subCategory' component = {SubCategoryCreate} />
-        <AdminRoute exact path='/admin/subCategory/:slug' component = {SubCategoryUpdate} />
-        <AdminRoute exact path='/admin/product' component = {ProductCreate} />
-        <AdminRoute exact path='/admin/products' component={AllProducts}/>
+        <Route exact path="/forgot/password" component={ForgotPassword} />
+        <UserRoute exact path="/user/history" component={UserHistory} />
+        <UserRoute exact path="/user/password" component={UserPassword} />
+        <UserRoute exact path="/user/wishlist" component={UserWishList} />
+        <AdminRoute exact path="/admin/dashboard" component={AdminDashboard} />
+        <AdminRoute exact path="/admin/category" component={CategoryCreate} />
+        <AdminRoute
+          exact
+          path="/admin/category/:slug"
+          component={CategoryUpdate}
+        />
+        <AdminRoute
+          exact
+          path="/admin/subCategory"
+          component={SubCategoryCreate}
+        />
+        <AdminRoute
+          exact
+          path="/admin/subCategory/:slug"
+          component={SubCategoryUpdate}
+        />
+        <AdminRoute exact path="/admin/product" component={ProductCreate} />
+        <AdminRoute exact path="/admin/products" component={AllProducts} />
+        <AdminRoute
+          exact
+          path="/admin/product/:slug"
+          component={ProductUpdate}
+        />
       </Switch>
     </>
   );

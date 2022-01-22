@@ -36,3 +36,11 @@ exports.remove = async (req, res) => {
     res.status(400).send("Product deletion failed");
   }
 };
+
+exports.read = async (req,res) => {
+  const product = await Product.findOne({slug:req.params.slug})
+  .populate('category')
+  .populate('subCategory')
+  .exec()
+  res.json(product)
+}
