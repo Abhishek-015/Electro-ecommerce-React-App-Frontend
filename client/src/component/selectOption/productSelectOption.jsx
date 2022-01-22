@@ -8,13 +8,25 @@ const ProductSelectOption = ({
   brands,
   categories,
   name,
+  color,
+  brand,
 }) => (
   <div className="form-group">
     <label>{heading}</label>
     <select
       name={name ? name : heading.toLowerCase()}
       className="form-control bg-secondary text-white"
-      // value={value}
+      value={
+        brand
+          ? brand
+          : selectShipping
+          ? selectShipping === "Yes"
+            ? "Yes"
+            : "No"
+          : color
+          ? color
+          : "Please Select"
+      }
       onChange={handleChange}
     >
       <option className="bg-secondary text-white">Please Select</option>
