@@ -4,8 +4,8 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import laptopImage from "../../images/computer/laptop.png";
 const { Meta } = Card;
 
-const AdminProductCard = ({ product }) => {
-  const { title, description, images } = product;
+const AdminProductCard = ({ product,removeProduct,handleRemove }) => {
+  const { title, description, images,slug } = product;
   return (
     <Card
       hoverable
@@ -19,7 +19,7 @@ const AdminProductCard = ({ product }) => {
       }
       actions={[
         <EditOutlined className="text-primary" />,
-        <DeleteOutlined className="text-danger" />,
+        <DeleteOutlined className="text-danger" onClick={()=>handleRemove(slug)}/>,
       ]}
     >
       <Meta title={title} description={`${description && description.substring(0,40)}...`} />

@@ -41,7 +41,7 @@ function App() {
          const idTokenResult = await user.getIdTokenResult()
          currentUser(idTokenResult.token)  //frotend is sending token to backend
          .then((res) => {  
-           console.log(res.data)                      //frontend got response as a promise from backend after varifying the token
+            //frontend got response as a promise from backend after varifying the token
            const {name,email,picture,role,_id}=res.data
            dispatch({
              type: "LOGGED_IN_USER",
