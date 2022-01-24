@@ -17,7 +17,6 @@ const initialState = {
   title: "",
   description: "",
   price: "",
-  categories: [],
   category: "",
   subCategory: [],
   shipping: "",
@@ -31,9 +30,12 @@ const initialState = {
 
 const ProductUpdate = ({ match }) => {
   const [values, setValues] = useState(initialState);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [subCategoryOption, setSubCategoryOption] = useState([]);
-  const [showSubCategories, setShowSubCategories] = useState(false);
+  const [showSubCategories, setShowSubCategories] = useState(true);
+  const [subCategoryArray, setSubCategoryArray] = useState([]);
+  const [prePopulateSelectShipping,setPrePopulateSelectShipping] = useState(true)
 
   const { user } = useSelector((state) => ({ ...state }));
 
@@ -43,7 +45,6 @@ const ProductUpdate = ({ match }) => {
     title,
     description,
     price,
-    categories,
     category,
     subCategory,
     shipping,
@@ -57,25 +58,44 @@ const ProductUpdate = ({ match }) => {
 
   useEffect(() => {
     loadProduct();
+    loadCategories();
   }, []);
 
   const loadProduct = () => {
     getProduct(slug).then((res) => {
       setValues({ ...values, ...res.data });
+      getCategorySubs(res.data.category._id).then((res) => {
+        setSubCategoryOption(res.data);
+      });
+      const subCategoryIdArray = [];
+      res.data.subCategory.map((subCat) => subCategoryIdArray.push(subCat._id));
+      setSubCategoryArray(prev => subCategoryIdArray);  //requires for ant design select to work
     });
   };
 
+  const loadCategories = () => {
+    getCategories(category)
+      .then((res) => {
+        setCategories(res.data);
+      })
+      .catch((err) => toast.error(err.message));
+  };
+
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     //
   };
   const handleChange = (e) => {
-    const {name,value} = e.target
-    setValues({...values,[name]:value})
+    const { name, value } = e.target;
+    setValues({ ...values, [name]: value });
   };
 
-  const handleCategoryChange = () => {
-    //
+  const handleCategoryChange = (e) => {
+    e.preventDefault();
+    setValues({ ...values, subCategory: [], category: e.target.value });
+    getCategorySubs(e.target.value).then((res) => {
+      setSubCategoryOption(res.data);
+    });
   };
 
   const selectShipping = ["No", "Yes"];
@@ -86,9 +106,7 @@ const ProductUpdate = ({ match }) => {
         <div className="col-md-2">
           <AdminNav />
         </div>
-
         <div className="col-md-10">
-          {JSON.stringify(values)}
           {loading ? (
             <LoadingOutlined className="text-danger m-3 h1" />
           ) : (
@@ -147,19 +165,22 @@ const ProductUpdate = ({ match }) => {
             />
             <ProductSelectOption
               heading="Category"
-              value={category}
+              category={category.name}
               categories={categories}
               handleChange={handleCategoryChange}
             />
             <MultiSelectOption
               heading="Sub Category"
-              subCategory={subCategory}
-              setValues={setValues}
               values={values}
-              subCategoryOption={subCategoryOption}
+              // subCategory={subCategory}
+              setValues={setValues}
               showSubCategories={showSubCategories}
+              subCategoryOption={subCategoryOption}
+              subCategoryArray={subCategoryArray}
+              setSubCategoryArray={setSubCategoryArray}
+              prePopulateSelectShipping={prePopulateSelectShipping}
             />
-            <button className="btn btn-outline-info px-4 my-3">Create</button>
+            <button className="btn btn-outline-info px-4 my-3">Save</button>
           </form>
         </div>
       </div>
