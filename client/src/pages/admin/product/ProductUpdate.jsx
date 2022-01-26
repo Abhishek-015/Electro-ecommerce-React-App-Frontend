@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 
 import { LoadingOutlined } from "@ant-design/icons";
 
-import { getProduct } from "../../../utils/product";
+import { getProduct,updateProduct } from "../../../utils/product";
 import { getCategories, getCategorySubs } from "../../../utils/category";
 
 import AdminNav from "../../../component/nav/AdminNav";
@@ -28,14 +28,17 @@ const initialState = {
   brand: "",
 };
 
-const ProductUpdate = ({ match }) => {
+const ProductUpdate = ({ match,history }) => {
   const [values, setValues] = useState(initialState);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [subCategoryOption, setSubCategoryOption] = useState([]);
   const [showSubCategories, setShowSubCategories] = useState(true);
   const [subCategoryArray, setSubCategoryArray] = useState([]);
-  const [prePopulateSelectShipping,setPrePopulateSelectShipping] = useState(true)
+  const [prePopulateSelectShipping, setPrePopulateSelectShipping] =
+    useState(true);
+
+    const prevCategory = useRef(values.category._id)
 
   const { user } = useSelector((state) => ({ ...state }));
 
@@ -59,6 +62,7 @@ const ProductUpdate = ({ match }) => {
   useEffect(() => {
     loadProduct();
     loadCategories();
+    prevCategory.current=values.category._id
   }, []);
 
   const loadProduct = () => {
@@ -69,7 +73,7 @@ const ProductUpdate = ({ match }) => {
       });
       const subCategoryIdArray = [];
       res.data.subCategory.map((subCat) => subCategoryIdArray.push(subCat._id));
-      setSubCategoryArray(prev => subCategoryIdArray);  //requires for ant design select to work
+      setSubCategoryArray((prev) => subCategoryIdArray); //requires for ant design select to work
     });
   };
 
@@ -83,7 +87,18 @@ const ProductUpdate = ({ match }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    //
+    setLoading(true)
+    values.subCategory = subCategoryArray
+    updateProduct(slug,values,user.token)
+    .then(res => {
+          setLoading(false)
+          toast.success(`"${res.data.title}" is updated`);
+          history.push('/admin/products')
+    }).catch(err=>{
+      console.log('Error in upadation--->',err)
+      setLoading(false)
+      toast.error(err.response.data.err)
+    })
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -96,6 +111,12 @@ const ProductUpdate = ({ match }) => {
     getCategorySubs(e.target.value).then((res) => {
       setSubCategoryOption(res.data);
     });
+
+    if (prevCategory.current === e.target.value){ //when user click on the same category ,we show the default values of the subcategory
+       loadProduct()
+      }else{
+        setSubCategoryArray([]); //when user click on the category othrt than prepopulated, we clear the subcategory option
+      }; 
   };
 
   const selectShipping = ["No", "Yes"];
@@ -143,6 +164,7 @@ const ProductUpdate = ({ match }) => {
             <ProductSelectOption
               heading="Shipping"
               selectShipping={selectShipping}
+              shipping={shipping}
               handleChange={handleChange}
             />
             <ProductInput
@@ -166,19 +188,18 @@ const ProductUpdate = ({ match }) => {
             <ProductSelectOption
               heading="Category"
               category={category.name}
+              categoryId={category._id}
               categories={categories}
               handleChange={handleCategoryChange}
             />
             <MultiSelectOption
               heading="Sub Category"
               values={values}
-              // subCategory={subCategory}
               setValues={setValues}
               showSubCategories={showSubCategories}
               subCategoryOption={subCategoryOption}
               subCategoryArray={subCategoryArray}
               setSubCategoryArray={setSubCategoryArray}
-              prePopulateSelectShipping={prePopulateSelectShipping}
             />
             <button className="btn btn-outline-info px-4 my-3">Save</button>
           </form>

@@ -7,11 +7,12 @@ const ProductSelectOption = ({
   colors,
   brands,
   categories,
+  shipping,
   category,
+  categoryId,
   name,
   color,
   brand,
-  prePopulateSelectShipping
 }) => (
   <div className="form-group">
     <label>{heading}</label>
@@ -19,10 +20,12 @@ const ProductSelectOption = ({
       name={name ? name : heading.toLowerCase()}
       className="form-control bg-secondary text-white"
       value={
-          brand
+        categoryId
+          ? categoryId
+          : brand
           ? brand
-          : selectShipping && prePopulateSelectShipping
-          ? selectShipping === "Yes"
+          : shipping
+          ? shipping === "Yes"
             ? "Yes"
             : "No"
           : color
@@ -31,7 +34,11 @@ const ProductSelectOption = ({
       }
       onChange={handleChange}
     >
-      <option className="bg-secondary text-white">{category?category:"Please select"}</option>
+      <option
+        className="bg-secondary text-white"
+      >
+        Please select
+      </option>
       {selectShipping || colors || brands
         ? (selectShipping || colors || brands).map((el) => (
             <option className="bg-secondary text-white" value={el} key={el}>
