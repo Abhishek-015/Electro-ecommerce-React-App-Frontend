@@ -1,4 +1,5 @@
 const Product = require("../models/product");
+const User = require("../models/user");
 const slugify = require("slugify");
 
 exports.create = async (req, res) => {
@@ -86,11 +87,11 @@ exports.list = async (req, res) => {
   try {
     //sort-->createdAt/updatedAt, order-->asc,desc
     const { sort, order, page } = req.body;
-    const currentPage = page || 1
-    const perPageProducts = 3
-    
+    const currentPage = page || 1;
+    const perPageProducts = 3;
+
     const products = await Product.find({})
-    .skip((currentPage-1)*perPageProducts)
+      .skip((currentPage - 1) * perPageProducts)
       .populate("category")
       .populate("subCategory")
       .sort([[sort, order]])
@@ -102,8 +103,43 @@ exports.list = async (req, res) => {
   }
 };
 
-
 exports.productsCount = async (req, res) => {
   let total = await Product.find({}).estimatedDocumentCount().exec();
-  res.json(total)
+  res.json(total);
+};
+
+exports.productStar = async (req, res) => {
+  const product = await Product.findById(req.params.productId).exec();
+  const user = await User.findOne({ email: req.user.email }).exec();
+  const { star } = req.body;
+
+  //who is updating
+  //check if currently logged in user have already added rating to this product
+  let existingRatingObject = product.ratings.find(
+    (el) => el.postedBy.toString() == user._id.toString()
+  );
+
+  //if user have not left rating yet, push it
+  if (existingRatingObject === undefined) {
+    let ratingAdded = await Product.findByIdAndUpdate(
+      product._id,
+      {
+        $push: { ratings: { star: star, postedBy: user._id } },
+      },
+      { new: true }
+    ).exec();
+    console.log("ratingAdded", ratingAdded);
+    res.json(ratingAdded);
+  } else {
+    //if user have already left rating , update it
+    const updateRating = await Product.updateOne(
+      {
+        ratings: { $elemMatch: existingRatingObject },
+      },
+      { $set: { "ratings.$.star": star } },
+      { new: true }
+    ).exec();
+    console.log("ratingUpdated", ratingUpdated);
+    res.json(ratingUpdated);
+  }
 };
