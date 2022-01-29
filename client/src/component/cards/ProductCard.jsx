@@ -20,7 +20,7 @@ const ProductCard = ({ product }) => {
         />
       }
       actions={[
-        <Link to={`/admin/product/${slug}`}>
+        <Link to={`/product/${slug}`}>
           <EyeOutlined className="text-primary" />
           <br />
           View Product

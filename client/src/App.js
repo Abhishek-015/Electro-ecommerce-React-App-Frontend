@@ -3,6 +3,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { auth } from "./firebase/firbase";
 import { toast } from "react-toastify";
+import '../src/index.css'
 
 import Home from "./pages/Home";
 import Register from "./pages/auth/Register";
@@ -23,6 +24,7 @@ import SubCategoryUpdate from "./pages/admin/subCategory/SubCategoryUpdate";
 import ProductCreate from "./pages/admin/product/ProductCreate";
 import AllProducts from "./pages/admin/product/AllProducts";
 import ProductUpdate from "./pages/admin/product/ProductUpdate";
+import Product from "./pages/Product";
 
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -97,6 +99,7 @@ function App() {
           path="/admin/product/:slug"
           component={ProductUpdate}
         />
+        <Route exact path="/product/:slug" component={Product} />
       </Switch>
     </>
   );

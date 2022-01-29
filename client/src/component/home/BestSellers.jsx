@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getProducts, getProductsCount  } from "../../utils/product";
+import { getProducts, getProductsCount } from "../../utils/product";
 
 import ProductCard from "../cards/ProductCard";
 import LoadingCardEffect from "../loadingEffect/loadingCardEffect";
@@ -50,8 +50,9 @@ const BestSellers = () => {
       <div className="row">
         <nav className="col-md-4 offset-md-4 text-center py-3 mt-3">
           <Pagination
+            size="small"
             current={page}
-            total={(productsCount / 3) * 10}
+            total={Math.ceil(productsCount / 3) * 10}
             onChange={(value) => setPage(value)}
           />
         </nav>

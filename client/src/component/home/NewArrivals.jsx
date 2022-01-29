@@ -20,6 +20,7 @@ const NewArrivals = () => {
   }, []);
 
   const loadAllProducts = () => {
+    console.log('loading..........')
     setLoading(true);
     getProducts("createdAt", "desc", page)
       .then((res) => {
@@ -50,9 +51,13 @@ const NewArrivals = () => {
       <div className="row">
         <nav className="col-md-4 offset-md-4 text-center py-3 mt-3">
           <Pagination
+          size="small"
             current={page}
-            total={(productsCount / 3) * 10}
-            onChange={(value) => setPage(value)}
+            total={Math.ceil(productsCount / 3) * 10}
+            onChange={(value) => {
+              setPage(value);
+              console.log(value)
+            }}
           />
         </nav>
       </div>
