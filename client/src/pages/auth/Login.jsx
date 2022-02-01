@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { auth, googleAuthProvider } from "../../firebase/firbase";
 import { toast } from "react-toastify";
 import { Button } from "antd";
@@ -17,10 +17,17 @@ const Login = ({ history }) => {
   const { user } = useSelector((state) => ({ ...state }));
 
   const roleBasedRedirect = (res) => {
-    const {role} = res.data
-    history.push(
-      role === "subscriber" ? "/user/history" : "/admin/dashboard"
-    );
+    const { role } = res.data;
+
+    //check if intended
+    let intended = history.location.state;
+    if (intended) {
+      history.push(intended.from);
+    } else {
+      history.push(
+        role === "subscriber" ? "/user/history" : "/admin/dashboard"
+      );
+    }
     // if(role==="admin"){
     //    history.push('/admin/dashboard')
     //    return
@@ -29,8 +36,13 @@ const Login = ({ history }) => {
   };
 
   useEffect(() => {
-    if (user && user.token) history.push("/");
-  }, [user,history]);
+    let intended = history.location.state;
+    if (intended) {
+      return;
+    } else {
+      if (user && user.token) history.push("/");
+    }
+  }, [user, history]);
 
   const dispatch = useDispatch();
 
