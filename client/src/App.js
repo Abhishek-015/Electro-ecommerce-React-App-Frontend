@@ -25,6 +25,7 @@ import ProductCreate from "./pages/admin/product/ProductCreate";
 import AllProducts from "./pages/admin/product/AllProducts";
 import ProductUpdate from "./pages/admin/product/ProductUpdate";
 import Product from "./pages/Product";
+import CategoryHome from "./pages/category/CategoryHome";
 
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -100,6 +101,7 @@ function App() {
           component={ProductUpdate}
         />
         <Route exact path="/product/:slug" component={Product} />
+        <Route exact path="/category/:slug" component={CategoryHome} />
       </Switch>
     </>
   );

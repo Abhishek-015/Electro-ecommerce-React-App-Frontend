@@ -128,14 +128,12 @@ exports.productStar = async (req, res) => {
       },
       { new: true }
     ).exec();
-    console.log("ratingAdded", ratingAdded);
     res.json(ratingAdded);
   } else {
     //if user have already left rating , update it
     if (existingRatingObject) {
       existingRatingObject.star = star;
       const updatedRating = await product.save();
-      console.log("updatedRating------>", updatedRating);
       res.json(updatedRating);
     }
     // const updateRating = await Product.updateOne(
@@ -148,4 +146,19 @@ exports.productStar = async (req, res) => {
     // console.log("updateRating", updateRating);
     // res.json(updateRating);
   }
+};
+
+exports.listRelated = async (req, res) => {
+  const product = await Product.findById(req.params.productId).exec();
+  const related = await Product.find({
+    _id: { $ne: product._id },
+    category: product.category,
+  })
+    .limit(3)
+    .populate("category")
+    .populate("subCategory")
+    .populate("ratings.postedBy")
+    .exec();
+
+  res.json(related);
 };
