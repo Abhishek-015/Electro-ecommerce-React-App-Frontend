@@ -39,7 +39,9 @@ const CategoryCreate = () => {
 
   const loadCategories = () =>
     getCategories()
-      .then((cat) => setCategories(cat.data))
+      .then((cat) => {
+        setCategories(cat.data)
+      })
       .catch((err) => console.log(err));
 
   const handleSubmit = (e) => {

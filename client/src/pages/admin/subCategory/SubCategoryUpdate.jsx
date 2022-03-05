@@ -33,8 +33,9 @@ const SubCategoryUpdate = ({ match, history }) => {
   const loadSubCategory = () =>
     getSubCategory(slug)
       .then((sub) => {
-        setName(sub.data.name);
-        setParentCategory(sub.data.parent);
+        console.log(JSON.stringify(sub,null,4))
+        setName(sub.data.subCategory.name);
+        setParentCategory(sub.data.subCategory.parent);
       })
       .catch((err) => console.log(err));
 
@@ -50,7 +51,7 @@ const SubCategoryUpdate = ({ match, history }) => {
         history.push("/admin/subCategory");
       })
       .catch((err) => {
-        console.log(err);
+        console.log("err========>",err);
         setLoading(false);
         if (err.response.status === 400) toast.error(err.response.data);
       });
@@ -71,7 +72,6 @@ const SubCategoryUpdate = ({ match, history }) => {
         className="form-control bg-secondary text-white"
         onChange={(e) => setParentCategory(e.target.value)}
       >
-        <option className="bg-secondary text-white">Please Select</option>
         {categories.length > 0 &&
           categories.map((category) => (
             <option

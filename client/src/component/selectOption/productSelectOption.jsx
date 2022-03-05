@@ -8,14 +8,16 @@ const ProductSelectOption = ({
   brands,
   categories,
   shipping,
-  category,
+  categoryName,
   categoryId,
   name,
   color,
   brand,
+  values
 }) => (
   <div className="form-group">
     <label>{heading}</label>
+    
     <select
       name={name ? name : heading.toLowerCase()}
       className="form-control bg-secondary text-white"
@@ -30,14 +32,14 @@ const ProductSelectOption = ({
             : "No"
           : color
           ? color
-          : null
+          : undefined
       }
       onChange={handleChange}
     >
       <option
         className="bg-secondary text-white"
       >
-        Please select
+         Please Select
       </option>
       {selectShipping || colors || brands
         ? (selectShipping || colors || brands).map((el) => (
@@ -46,6 +48,7 @@ const ProductSelectOption = ({
             </option>
           ))
         : categories.map((el) => (
+          
             <option
               className="bg-secondary text-white"
               value={el._id}

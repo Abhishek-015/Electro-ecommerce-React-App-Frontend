@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 
-import {LoadingOutlined} from '@ant-design/icons'
+import { LoadingOutlined } from "@ant-design/icons";
 
 import { createProduct } from "../../../utils/product";
 import { getCategories, getCategorySubs } from "../../../utils/category";
@@ -42,9 +42,10 @@ const ProductCreate = () => {
   }, []);
 
   const loadAllCategories = () => {
-    getCategories().then((cat) =>
-      setValues({ ...values, categories: cat.data })
-    );
+    getCategories().then((cat) => {
+      console.log("dbhsjfh", cat);
+      setValues({ ...values, categories: cat.data });
+    });
   };
 
   const {
@@ -82,6 +83,7 @@ const ProductCreate = () => {
 
   const handleChange = ({ target }) => {
     const { name, value } = target;
+    console.log(name,value,"name,value")
     setValues({ ...values, [name]: value });
   };
 
@@ -105,14 +107,18 @@ const ProductCreate = () => {
 
         <div className="col-md-10">
           {loading ? (
-            <LoadingOutlined className="text-danger m-3 h1"  />
+            <LoadingOutlined className="text-danger m-3 h1" />
           ) : (
             <h4 className="my-3">Product Create</h4>
           )}
 
           <hr />
           <div className="p-3">
-            <FileUplaod values={values} setValues={setValues} setLoading={setLoading} />
+            <FileUplaod
+              values={values}
+              setValues={setValues}
+              setLoading={setLoading}
+            />
           </div>
           <form onSubmit={handleSubmit}>
             <ProductInput

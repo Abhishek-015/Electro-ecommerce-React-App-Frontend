@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 import { LoadingOutlined } from "@ant-design/icons";
 
-import { getProduct,updateProduct } from "../../../utils/product";
+import { getProduct, updateProduct } from "../../../utils/product";
 import { getCategories, getCategorySubs } from "../../../utils/category";
 
 import AdminNav from "../../../component/nav/AdminNav";
@@ -28,7 +28,7 @@ const initialState = {
   brand: "",
 };
 
-const ProductUpdate = ({ match,history }) => {
+const ProductUpdate = ({ match, history }) => {
   const [values, setValues] = useState(initialState);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -38,7 +38,7 @@ const ProductUpdate = ({ match,history }) => {
   const [prePopulateSelectShipping, setPrePopulateSelectShipping] =
     useState(true);
 
-    const prevCategory = useRef(values.category._id)
+  const prevCategory = useRef("");
 
   const { user } = useSelector((state) => ({ ...state }));
 
@@ -62,15 +62,19 @@ const ProductUpdate = ({ match,history }) => {
   useEffect(() => {
     loadProduct();
     loadCategories();
-    prevCategory.current=values.category._id
   }, []);
 
   const loadProduct = () => {
     getProduct(slug).then((res) => {
+      //1 load single product
       setValues({ ...values, ...res.data });
+      prevCategory.current = res.data.category._id;
+
+      //2 load single product sub category
       getCategorySubs(res.data.category._id).then((res) => {
-        setSubCategoryOption(res.data);
+        setSubCategoryOption(res.data); //on first load ,show default sub category
       });
+      //3 prepare array of subCategory ids to show as dfefault sub values in ant design select
       const subCategoryIdArray = [];
       res.data.subCategory.map((subCat) => subCategoryIdArray.push(subCat._id));
       setSubCategoryArray((prev) => subCategoryIdArray); //requires for ant design select to work
@@ -87,18 +91,19 @@ const ProductUpdate = ({ match,history }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true)
-    values.subCategory = subCategoryArray
-    updateProduct(slug,values,user.token)
-    .then(res => {
-          setLoading(false)
-          toast.success(`"${res.data.title}" is updated`);
-          history.push('/admin/products')
-    }).catch(err=>{
-      console.log('Error in upadation--->',err)
-      setLoading(false)
-      toast.error(err.response.data.err)
-    })
+    setLoading(true);
+    values.subCategory = subCategoryArray;
+    updateProduct(slug, values, user.token)
+      .then((res) => {
+        setLoading(false);
+        toast.success(`"${res.data.title}" is updated`);
+        history.push("/admin/products");
+      })
+      .catch((err) => {
+        console.log("Error in upadation--->", err);
+        setLoading(false);
+        toast.error(err.response.data.err);
+      });
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -111,13 +116,43 @@ const ProductUpdate = ({ match,history }) => {
     getCategorySubs(e.target.value).then((res) => {
       setSubCategoryOption(res.data);
     });
+    //to load the default subCategory when clicked back on existing category
+    if (prevCategory.current=== e.target.value) {
+      loadProduct();
+    }
+    //to clear out the subcategory if othrt category is selected other than existing one
+    setSubCategoryArray([]);
 
-    if (prevCategory.current === e.target.value){ //when user click on the same category ,we show the default values of the subcategory
-       loadProduct()
-      }else{
-        setSubCategoryArray([]); //when user click on the category othrt than prepopulated, we clear the subcategory option
-      }; 
   };
+
+  //productSelectOptionForm
+
+  const ProductSelectOptionForm = () => (
+    <div className="form-group">
+      <label>Category</label>
+
+      <select
+        name="category"
+        className="form-control bg-secondary text-white"
+        value={category._id}
+        onChange={handleCategoryChange}
+      >
+        {/* <option className="bg-secondary text-white">
+          {category ? category.name : "Select Category"}
+        </option> */}
+        {categories.length > 0 &&
+          categories.map((el) => (
+            <option
+              className="bg-secondary text-white"
+              value={el._id}
+              key={el._id}
+            >
+              {el.name}
+            </option>
+          ))}
+      </select>
+    </div>
+  );
 
   const selectShipping = ["No", "Yes"];
 
@@ -185,13 +220,15 @@ const ProductUpdate = ({ match,history }) => {
               brands={brands}
               handleChange={handleChange}
             />
-            <ProductSelectOption
+            {/* <ProductSelectOption
               heading="Category"
-              category={category.name}
+              brand={brand}
+              categoryName={category.name}
               categoryId={category._id}
               categories={categories}
               handleChange={handleCategoryChange}
-            />
+            /> */}
+            {ProductSelectOptionForm()}
             <MultiSelectOption
               heading="Sub Category"
               values={values}

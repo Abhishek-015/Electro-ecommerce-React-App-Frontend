@@ -24,8 +24,8 @@ const CategoryUpdate = ({ history, match }) => {
   const loadCategory = () =>
     getCategory(slug)
       .then((cat) => {
-        setName(cat.data.name);
-        previousCategory.current = cat.data.name;
+        setName(cat.data.category.name);
+        previousCategory.current = cat.data.category.name;
       })
       .catch((err) => console.log(err));
 
