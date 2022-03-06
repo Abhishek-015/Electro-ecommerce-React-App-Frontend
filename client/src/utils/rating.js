@@ -8,8 +8,8 @@ export const showAverage = (product) => {
     ratingsArray.map((rating) => total.push(rating.star));
     let totalRatingsValue = total.reduce((prev, next) => prev + next, 0);
     let avgRating = totalRatingsValue / ratingsArray.length;
-    console.log("taotal", total, "totalRatingValue--->", totalRatingsValue);
-    console.log("avgRating-->", avgRating);
+    // console.log("taotal", total, "totalRatingValue--->", totalRatingsValue);
+    // console.log("avgRating-->", avgRating);
 
     return (
       <div className="text-center pt-1 pb-3">

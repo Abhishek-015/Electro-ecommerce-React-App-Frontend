@@ -16,7 +16,7 @@ const ProductListItems = ({ product }) => {
     <>
       <ul className="list-group">
         <li className="list-group-item border-0">
-          Price <span className="float-right">${price}</span>
+          Price <span className="float-right">₹{price}</span>
         </li>
         {category && (
           <li className="list-group-item border-0">

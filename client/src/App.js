@@ -27,6 +27,7 @@ import ProductUpdate from "./pages/admin/product/ProductUpdate";
 import Product from "./pages/Product";
 import CategoryHome from "./pages/category/CategoryHome";
 import SubCategoryHome from "./pages/subCategory/SubCategoryHome";
+import Shop from "./pages/Shop";
 
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -104,6 +105,7 @@ function App() {
         <Route exact path="/product/:slug" component={Product} />
         <Route exact path="/category/:slug" component={CategoryHome} />
         <Route exact path="/subCategory/:slug" component={SubCategoryHome} />
+        <Route exact path="/shop" component={Shop} />
       </Switch>
     </>
   );
