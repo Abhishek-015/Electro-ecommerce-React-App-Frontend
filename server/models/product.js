@@ -33,11 +33,13 @@ const ProductSchema = new mongoose.Schema(
     category: {
       type: ObjectId,
       ref: "Category",
+      required: true
     },
     subCategory: [
       {
         type: ObjectId,
         ref: "SubCategory",
+        required: true
       },
     ],
     quantity: Number,

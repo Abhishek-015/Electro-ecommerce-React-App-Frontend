@@ -16,7 +16,7 @@ const SubCategorySchema = new mongoose.Schema(
       lowercase: true,
       index: true,
     },
-    parent: { type: ObjectId, ref: "Category", required: true },
+    parent: { type: ObjectId, ref: "Category" },
   },
   {
     timestamps: true,

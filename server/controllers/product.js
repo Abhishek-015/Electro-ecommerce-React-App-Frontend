@@ -136,15 +136,6 @@ exports.productStar = async (req, res) => {
       const updatedRating = await product.save();
       res.json(updatedRating);
     }
-    // const updateRating = await Product.updateOne(
-    //   {
-    //     ratings: { $elemMatch: existingRatingObject },
-    //   },
-    //   { $set: { "ratings.$.star": star } },
-    //   { new: true }
-    // ).exec();
-    // console.log("updateRating", updateRating);
-    // res.json(updateRating);
   }
 };
 
@@ -161,4 +152,103 @@ exports.listRelated = async (req, res) => {
     .exec();
 
   res.json(related);
+};
+
+//search   and  filters
+
+const handlequery = async (req, res, query) => {
+  const products = await Product.find({ $text: { $search: query } })
+    .populate("category", "_id name slug")
+    .populate("subCategory", "_id name slug")
+    // .populate('postedBy','_id')
+    .exec();
+
+  res.json(products);
+};
+const handlePrice = async (req, res, price) => {
+  try {
+    const products = await Product.find({
+      price: { $gte: price[0], $lte: price[1] }
+    })
+      .populate("category", "_id name slug")
+      .populate("subCategory", "_id name slug")
+      .exec();
+
+    res.json(products);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const handleCategory = async (req,res,category) => {
+  console.log(category,"<---------category")
+   try{
+     let products = await Product.find({category})
+     .populate("category")
+     .populate("subCategory")
+     .exec();
+
+     res.json(products)
+
+   }catch(err){
+     console.log(err)
+   }
+}
+
+const handleStar = async (req,res,stars) => {
+  //product aggregate method basically creates a project inside our Product Model
+  //it helps us in creating the avg of everu unique rating and gives the associate products related to it
+    Product.aggregate([
+      {
+        $project:{
+          document:'$$ROOT',
+          floorAverage:{
+            $floor:{$avg:"$ratings.star"},
+          },
+        },
+      },
+      {$match:{floorAverage:stars}}
+    ])
+    .limit(12)
+    .exec((err,aggreagates)=>{
+      if(err) console.log("aggregate error",err)
+      Product.find({_id:aggreagates})
+      .populate("category")
+      .populate("subCategory")
+      .exec((err,products)=>{
+        if(err) console.log("Product aggregate error",err)
+        res.json(products)
+      });
+    })
+}
+
+const handleSubCategory = async (req,res,subCategory) => {
+    const products =await Product.find({subCategory})
+    .populate("category")
+    .populate("subCategory")
+    .exec();
+    res.json(products)
+}
+
+exports.searchFilters = async (req, res) => {
+  const { query, price , category ,stars,subCategory } = req.body;
+  if (query) {
+    console.log("query", query);
+    await handlequery(req, res, query);
+  }
+
+  //price will recieve as an array from frontend price=[200,45000]
+  
+  if (price != undefined) {
+    await handlePrice(req, res, price);
+  }
+  if(category){
+    await handleCategory(req,res,category)
+  }
+  if(stars){
+    await handleStar(req,res,stars)
+  }
+  if(subCategory){
+    await handleSubCategory(req,res,subCategory)
+  }
 };

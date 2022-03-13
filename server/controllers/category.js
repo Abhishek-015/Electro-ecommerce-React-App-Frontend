@@ -18,13 +18,9 @@ exports.list = async (req, res) =>
 
 exports.read = async (req, res) => {
   let category = await Category.findOne({ slug: req.params.slug }).exec();
+  console.log("category---->",category)
   const products = await Product.find({ category }).exec()
-    // .populate("category")
-    // .populated("posetdBy", "_id name")
-    // .exec();
-
-    console.log("products--------->",products)
-
+  
     res.json({
       category,
       products
@@ -61,3 +57,11 @@ exports.getSubCategory = async (req, res) => {
     res.status(400).send("Failed to send subCategory");
   }
 };
+
+//handling promises without async await
+// exports.getSubCategory = (req, res) => {
+//     SubCategory.find({ parent: req.params._id }).exec((err,subs)=>{
+//       if(err) console.log(err)
+//       res.json(subs)
+//     });
+// };
