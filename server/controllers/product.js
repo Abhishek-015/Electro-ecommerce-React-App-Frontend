@@ -230,15 +230,37 @@ const handleSubCategory = async (req,res,subCategory) => {
     res.json(products)
 }
 
+const handleShipping = async (req,res,shipping) => {
+    const products = await Product.find({shipping})
+    .populate("category")
+    .populate("subCategory")
+    .exec();
+    res.json(products)
+}
+const handleColor = async (req,res,color) => {
+  const products = await Product.find({color})
+  .populate("category")
+  .populate("subCategory")
+  .exec();
+  res.json(products)
+}
+const handleBrand = async (req,res,brand) => {
+  const products = await Product.find({brand})
+  .populate("category")
+  .populate("subCategory")
+  .exec();
+  res.json(products)
+}
+
 exports.searchFilters = async (req, res) => {
-  const { query, price , category ,stars,subCategory } = req.body;
+  const { query, price , category ,stars,subCategory,shipping,color,brand } = req.body;
   if (query) {
     console.log("query", query);
     await handlequery(req, res, query);
   }
 
   //price will recieve as an array from frontend price=[200,45000]
-  
+
   if (price != undefined) {
     await handlePrice(req, res, price);
   }
@@ -250,5 +272,14 @@ exports.searchFilters = async (req, res) => {
   }
   if(subCategory){
     await handleSubCategory(req,res,subCategory)
+  }
+  if(shipping){
+    await handleShipping(req,res,shipping)
+  }
+  if(color){
+    await handleColor(req,res,color)
+  }
+  if(brand){
+    await handleBrand(req,res,brand)
   }
 };
