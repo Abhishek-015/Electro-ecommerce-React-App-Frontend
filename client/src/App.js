@@ -3,7 +3,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { auth } from "./firebase/firbase";
 import { toast } from "react-toastify";
-import '../src/index.css'
+import "../src/index.css";
 
 import Home from "./pages/Home";
 import Register from "./pages/auth/Register";
@@ -28,16 +28,23 @@ import Product from "./pages/Product";
 import CategoryHome from "./pages/category/CategoryHome";
 import SubCategoryHome from "./pages/subCategory/SubCategoryHome";
 import Shop from "./pages/Shop";
+import Cart from "./pages/Cart";
 
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 //utils import
 import { currentUser } from "../src/utils/auth";
 
 function App() {
-  const dispatch = useDispatch();
+  //to scroll up
+  const location = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
 
+  const dispatch = useDispatch();
   //to check firebase auth state
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -106,6 +113,7 @@ function App() {
         <Route exact path="/category/:slug" component={CategoryHome} />
         <Route exact path="/subCategory/:slug" component={SubCategoryHome} />
         <Route exact path="/shop" component={Shop} />
+        <Route exact path="/cart" component={Cart} />
       </Switch>
     </>
   );

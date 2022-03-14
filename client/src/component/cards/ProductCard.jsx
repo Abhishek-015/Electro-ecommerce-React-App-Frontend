@@ -1,15 +1,51 @@
-import React from "react";
-import { Card } from "antd";
+import React, { useState } from "react";
+import { Card, Tooltip } from "antd";
 import { EyeOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import laptopImage from "../../images/computer/laptop.png";
 import { Link } from "react-router-dom";
 
 import { showAverage } from "../../utils/rating";
+import _ from "lodash"; //used for remove duplicates
+import {useSelector,useDispatch} from 'react-redux'
 
 const { Meta } = Card;
 
 const ProductCard = ({ product }) => {
-  const { images, slug, title, description,price } = product;
+  const { images, slug, title, description, price } = product;
+  const [tooltip, setTooltip] = useState("Click to add");
+
+  //redux
+  const {user,cart} = useSelector(state=>({...state}))
+  const dispatch = useDispatch()
+
+  const handleAddToCart = () => {
+    //create cart array
+    let cart = [];
+    if (typeof window != "undefined") {
+      // if cart is in localstorage GET it
+      if (localStorage.getItem("cart")) {
+        cart = JSON.parse(localStorage.getItem("cart"));
+      }
+      //push new product to cart
+      cart.push({
+        ...product,
+        count: 1,
+      });
+      //remove duplicates
+      let unique = _.uniqWith(cart, _.isEqual);
+      //save to local storage
+      localStorage.setItem("cart", JSON.stringify(unique));
+      // show tooltip
+      setTooltip("Added");
+
+      //add to redux state
+      dispatch({
+        type:"ADD_TO_CART",
+        payload:unique,
+      })
+    }
+  };
+
   return (
     <>
       {product && product.ratings && product.ratings.length > 0 ? (
@@ -33,11 +69,13 @@ const ProductCard = ({ product }) => {
             <br />
             View Product
           </Link>,
-          <>
-            <ShoppingCartOutlined className="text-danger" />
-            <br />
-            Add to Cart
-          </>,
+          <Tooltip title={tooltip}>
+            <a onClick={handleAddToCart}>
+              <ShoppingCartOutlined className="text-danger" />
+              <br />
+              Add to Cart
+            </a>
+          </Tooltip>,
         ]}
       >
         <Meta

@@ -65,10 +65,14 @@ const Shop = () => {
 
   //2 Load page on user search input
   useEffect(() => {
-    const delayed = setTimeout(() => {
-      fetchFilterdProducts({ query: text });
-    }, 300);
-    return () => clearTimeout(delayed);
+    if (text != "") {
+      const delayed = setTimeout(() => {
+        fetchFilterdProducts({ query: text });
+      }, 300);
+      return () => clearTimeout(delayed);
+    } else {
+      loadAllProducts();
+    }
   }, [text]);
 
   const fetchFilterdProducts = (arg) => {
@@ -92,7 +96,7 @@ const Shop = () => {
     setStar("");
     setBrand("");
     setColor("");
-    setShipping("")
+    setShipping("");
     setPrice(value);
     setTimeout(() => {
       setOk(!ok);
@@ -127,7 +131,7 @@ const Shop = () => {
     setStar("");
     setBrand("");
     setColor("");
-    setShipping("")
+    setShipping("");
     let inTheState = [...categoryIds];
     let justChecked = e.target.value;
     let foundInTheState = inTheState.indexOf(justChecked); //index or -1
@@ -154,7 +158,7 @@ const Shop = () => {
     setCategoryIds([]);
     setBrand("");
     setColor("");
-    setShipping("")
+    setShipping("");
     setStar(num);
     fetchFilterdProducts({ stars: num });
   };
@@ -195,7 +199,7 @@ const Shop = () => {
     setStar("");
     setBrand("");
     setColor("");
-    setShipping("")
+    setShipping("");
     fetchFilterdProducts({ subCategory });
   };
 
@@ -223,7 +227,7 @@ const Shop = () => {
     setCategoryIds([]);
     setStar("");
     setColor("");
-    setShipping("")
+    setShipping("");
     setBrand(e.target.value);
     fetchFilterdProducts({ brand: e.target.value });
   };
@@ -252,7 +256,7 @@ const Shop = () => {
     setCategoryIds([]);
     setStar("");
     setBrand("");
-    setShipping("")
+    setShipping("");
     setColor(e.target.value);
     fetchFilterdProducts({ color: e.target.value });
   };
@@ -301,7 +305,10 @@ const Shop = () => {
         <div className="col-md-3 pt-2">
           <h4>Search/Filter</h4>
           <hr />
-          <Menu defaultOpenKeys={["1", "2", "3", "4", "5", "6","7"]} mode="inline">
+          <Menu
+            defaultOpenKeys={["1", "2", "3", "4", "5", "6", "7"]}
+            mode="inline"
+          >
             {/* for price */}
             <SubMenu
               key="1"
@@ -415,10 +422,9 @@ const Shop = () => {
                   marginTop: "-10px",
                   marginBottom: "20px",
                   display: "flex",
-                  justifyContent:"space-between",
+                  justifyContent: "space-between",
                   flexDirection: "column",
-                  padding: '8px 0px'
-
+                  padding: "8px 0px",
                 }}
               >
                 {showShipping()}
