@@ -10,6 +10,7 @@ const Cart = () => {
   const getTotal = () => {
     return cart.reduce((currentValue, nextValue) => {
       return currentValue + nextValue.count * nextValue.price;
+
     }, 0);
   };
 
@@ -77,7 +78,7 @@ const Cart = () => {
             <button
               onClick={saveOrderToDb}
               className="btn btn-sm btn-primary mt-1 "
-              style={{ border: "none" }}
+              style={{ border: "none",marginBottom:"10" }}
               disabled={!cart.length}
             >
               Proceed to Checkout
