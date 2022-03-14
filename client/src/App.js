@@ -5,6 +5,8 @@ import { auth } from "./firebase/firbase";
 import { toast } from "react-toastify";
 import "../src/index.css";
 
+import SideDrawer from "./component/drawer/SideDrawer";
+
 import Home from "./pages/Home";
 import Register from "./pages/auth/Register";
 import Login from "./pages/auth/Login";
@@ -75,6 +77,7 @@ function App() {
   return (
     <>
       <Header />
+      <SideDrawer/>
       <ToastContainer />
       <Switch>
         <Route exact path="/" component={Home} />
