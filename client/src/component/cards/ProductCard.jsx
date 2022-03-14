@@ -22,19 +22,24 @@ const ProductCard = ({ product }) => {
     //create cart array
     let cart = [];
     if (typeof window != "undefined") {
+      
       // if cart is in localstorage GET it
       if (localStorage.getItem("cart")) {
         cart = JSON.parse(localStorage.getItem("cart"));
       }
+
       //push new product to cart
       cart.push({
         ...product,
         count: 1,
       });
+
       //remove duplicates
       let unique = _.uniqWith(cart, _.isEqual);
+
       //save to local storage
       localStorage.setItem("cart", JSON.stringify(unique));
+
       // show tooltip
       setTooltip("Added");
 
@@ -43,6 +48,13 @@ const ProductCard = ({ product }) => {
         type:"ADD_TO_CART",
         payload:unique,
       })
+
+      //show cart items in side drawer
+      dispatch({
+        type:"SET_VISIBLE",
+        payload:true,
+      })
+
     }
   };
 
