@@ -31,6 +31,7 @@ import CategoryHome from "./pages/category/CategoryHome";
 import SubCategoryHome from "./pages/subCategory/SubCategoryHome";
 import Shop from "./pages/Shop";
 import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
 
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -77,7 +78,7 @@ function App() {
   return (
     <>
       <Header />
-      <SideDrawer/>
+      <SideDrawer />
       <ToastContainer />
       <Switch>
         <Route exact path="/" component={Home} />
@@ -117,6 +118,7 @@ function App() {
         <Route exact path="/subCategory/:slug" component={SubCategoryHome} />
         <Route exact path="/shop" component={Shop} />
         <Route exact path="/cart" component={Cart} />
+        <UserRoute exact path="/checkout" component={Checkout} />
       </Switch>
     </>
   );

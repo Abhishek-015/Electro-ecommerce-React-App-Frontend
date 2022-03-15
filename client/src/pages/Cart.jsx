@@ -3,19 +3,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import ProductCardInCheckout from "../component/cards/ProductCardInCheckout";
 
-const Cart = () => {
+const Cart = ({ history }) => {
   const { cart, user } = useSelector((state) => ({ ...state }));
   const dispatch = useDispatch();
 
   const getTotal = () => {
     return cart.reduce((currentValue, nextValue) => {
       return currentValue + nextValue.count * nextValue.price;
-
     }, 0);
   };
 
   const saveOrderToDb = () => {
-    //
+    alert("save order to Database");
+    history.push("/checkout");
   };
 
   const showCartItems = () => {
@@ -78,7 +78,7 @@ const Cart = () => {
             <button
               onClick={saveOrderToDb}
               className="btn btn-sm btn-primary mt-1 "
-              style={{ border: "none",marginBottom:"10" }}
+              style={{ border: "none", marginBottom: "10" }}
               disabled={!cart.length}
             >
               Proceed to Checkout
