@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserCart } from "../utils/user";
+import { toast } from "react-toastify";
+import { getUserCart, emptyUserCart } from "../utils/user";
 
 const Checkout = () => {
   const [products, setProducts] = useState([]);
@@ -15,7 +16,27 @@ const Checkout = () => {
       setTotal(res.data.cartTotal);
     });
   }, []);
+
+  const emptyCart = () => {
+    //remove from local storage
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("cart");
+    }
+    //remove from redux
+    dispatch({
+      type: "ADD_TO_CART",
+      payload: [],
+    });
+    //remove from mongodb(backend)
+    emptyUserCart(user.token).then((res) => {
+      setProducts([]);
+      setTotal(0);
+      toast.success("cart is empty. Continue shopping");
+    });
+  };
+
   const saveAddressToDb = () => {};
+
   return (
     <div className="row">
       <div className="col-md-6">
@@ -23,7 +44,10 @@ const Checkout = () => {
         <br />
         <br />
         Text area
-        <button className="btn btn-primary m-2" onClick={saveAddressToDb}>
+        <button
+          className="btn btn-primary btn-sm py-0 m-2"
+          onClick={saveAddressToDb}
+        >
           Save
         </button>
         <hr />
@@ -40,8 +64,8 @@ const Checkout = () => {
         {products.map((prod, ind) => (
           <div key={ind}>
             <p>
-              {prod.product.title} ({prod.color}) x {prod.count} ={" "}
-              ₹{prod.product.price*prod.count}
+              {prod.product.title} ({prod.color}) x {prod.count} = ₹
+              {prod.product.price * prod.count}
             </p>
           </div>
         ))}
@@ -50,10 +74,16 @@ const Checkout = () => {
         <hr />
         <div className="row">
           <div className="col-md-6">
-            <button className="btn btn-primary m-1">Place Order</button>
+            <button className="btn btn-primary btn-sm  m-1">Place Order</button>
           </div>
           <div className="col-md-6">
-            <button className="btn btn-primary m-1">Empty Cart</button>
+            <button
+              className="btn btn-primary btn-sm  m-1"
+              disabled={!products.length}
+              onClick={emptyCart}
+            >
+              Empty Cart
+            </button>
           </div>
         </div>
       </div>
