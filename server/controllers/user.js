@@ -7,14 +7,14 @@ exports.userCart = async (req, res) => {
   const { cart } = req.body;
 
   let products = [];
-  const user = await User.findOne({ email: req.user.email() }).exec();
+  const user = await User.findOne({ email: req.user.email }).exec();
 
   //check if cart with logged in user id is already exist
   let cartExistByThisUser = await Cart.findOne({ orderdBy: user._id }).exec();
 
   if (cartExistByThisUser) {
     cartExistByThisUser.remove();
-    console.log("removed old cart");
+    // console.log("removed old cart");
   }
 
   for (let i = 0; i < cart.length; i++) {
@@ -34,7 +34,8 @@ exports.userCart = async (req, res) => {
   for (let i = 0; i < products.length; i++) {
     cartTotal += products[i].price * products[i].count;
   }
-  //   console.log("cartTotal", cartTotal);
+
+  // console.log("cartTotal------>", cartTotal);
 
   let newCart = await new Cart({
     products,
@@ -42,7 +43,6 @@ exports.userCart = async (req, res) => {
     orderedBy: user._id,
   }).save();
 
-  console.log("new cart", newCart);
+  //   console.log("new cart", JSON.stringify(newCart,null,4));
   res.json({ ok: true });
-  
 };

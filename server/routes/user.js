@@ -8,6 +8,6 @@ const { authCheck } = require("../middlewares/auth");
 const { userCart } = require("../controllers/user");
 
 //route
-router.post("/cart", authCheck, userCart);
+router.post("/user/cart", authCheck, userCart);
 
 module.exports = router;
