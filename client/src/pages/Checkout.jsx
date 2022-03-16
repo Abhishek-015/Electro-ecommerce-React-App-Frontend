@@ -1,11 +1,16 @@
+// require('react-quill/dist/quill.snow.css');
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { getUserCart, emptyUserCart } from "../utils/user";
+import { getUserCart, emptyUserCart, saveUserAddress } from "../utils/user";
+import ReactQuill from "react-quill";
+import 'react-quill/dist/quill.snow.css'; // ES6
 
 const Checkout = () => {
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
+  const [address, setAddress] = useState("");
+  const [addressSaved, setAddressSaved] = useState("");
 
   const { user } = useSelector((state) => ({ ...state }));
   const dispatch = useDispatch();
@@ -35,15 +40,24 @@ const Checkout = () => {
     });
   };
 
-  const saveAddressToDb = () => {};
+  const saveAddressToDb = () => {
+    // console.log(address)
+    saveUserAddress(user.token,address).then(res=>{
+       if(res.data.ok){
+         setAddressSaved(true)
+         toast.success('Address Saved')
+       }
+    })
+  };
 
   return (
     <div className="row">
       <div className="col-md-6">
+        <br />
         <h4>Delivery Address</h4>
         <br />
-        <br />
-        Text area
+        {/* little bit change in onchange for react quill */}
+        <ReactQuill theme="snow" value={address} onChange={setAddress} />{" "}
         <button
           className="btn btn-primary btn-sm py-0 m-2"
           onClick={saveAddressToDb}
@@ -74,7 +88,7 @@ const Checkout = () => {
         <hr />
         <div className="row">
           <div className="col-md-6">
-            <button className="btn btn-primary btn-sm  m-1">Place Order</button>
+            <button className="btn btn-primary btn-sm  m-1" disabled={!addressSaved || !products.length}>Place Order</button>
           </div>
           <div className="col-md-6">
             <button

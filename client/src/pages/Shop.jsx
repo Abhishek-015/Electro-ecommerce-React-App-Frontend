@@ -65,14 +65,13 @@ const Shop = () => {
 
   //2 Load page on user search input
   useEffect(() => {
-    if (text != "") {
-      const delayed = setTimeout(() => {
-        fetchFilterdProducts({ query: text });
-      }, 300);
-      return () => clearTimeout(delayed);
-    } else {
-      loadAllProducts();
-    }
+    const delayed = setTimeout(() => {
+      fetchFilterdProducts({ query: text });
+      if (!text) {
+        loadAllProducts();
+      }
+    }, 300);
+    return () => clearTimeout(delayed);
   }, [text]);
 
   const fetchFilterdProducts = (arg) => {
