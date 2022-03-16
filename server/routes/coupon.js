@@ -13,7 +13,7 @@ const {
 
 //routes
 router.post("/coupon", authCheck, adminCheck, create);
-router.get("/coupon", list);
+router.get("/coupons", list);
 // router.get("/subCategory/:slug", read);
 // router.put("/subCategory/:slug", authCheck, adminCheck, update);
 router.delete("/coupon/:couponId", authCheck, adminCheck, remove);
