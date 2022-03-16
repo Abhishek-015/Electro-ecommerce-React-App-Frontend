@@ -2,15 +2,25 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { getUserCart, emptyUserCart, saveUserAddress } from "../utils/user";
+import {
+  getUserCart,
+  emptyUserCart,
+  saveUserAddress,
+  applyCoupon,
+} from "../utils/user";
 import ReactQuill from "react-quill";
-import 'react-quill/dist/quill.snow.css'; // ES6
+import "react-quill/dist/quill.snow.css"; // ES6
 
 const Checkout = () => {
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
   const [address, setAddress] = useState("");
   const [addressSaved, setAddressSaved] = useState("");
+  const [coupon, setCoupon] = useState("");
+  // discounted price
+  const [totalAfterDiscount, setTotalAfterDiscount] = useState(0);
+  // if coupon is not valit
+  const [discountError, setDiscountError] = useState("");
 
   const { user } = useSelector((state) => ({ ...state }));
   const dispatch = useDispatch();
@@ -42,53 +52,99 @@ const Checkout = () => {
 
   const saveAddressToDb = () => {
     // console.log(address)
-    saveUserAddress(user.token,address).then(res=>{
-       if(res.data.ok){
-         setAddressSaved(true)
-         toast.success('Address Saved')
-       }
-    })
+    saveUserAddress(user.token, address).then((res) => {
+      if (res.data.ok) {
+        setAddressSaved(true);
+        toast.success("Address Saved");
+      }
+    });
   };
+
+  const applyDiscountCoupon = () => {
+    applyCoupon(user.token, coupon).then((res) => {
+      if (res.data) {
+        setTotalAfterDiscount(res.data);
+        // update redux coupon applied
+      }
+      //error
+      if (res.data.err) {
+        setDiscountError(res.data.err);
+        //update redux coupon applied
+      }
+    });
+  };
+
+  const showAddress = () => (
+    <>
+      {/* little bit change in onchange for react quill */}
+      <ReactQuill
+        theme="snow"
+        value={address}
+        onChange={setAddress}
+        className="m-1"
+      />{" "}
+      <button className="btn btn-primary btn-sm  m-2" onClick={saveAddressToDb}>
+        Save
+      </button>
+    </>
+  );
+
+  const showProductSummary = () =>
+    products.map((prod, ind) => (
+      <div key={ind}>
+        <p>
+          {prod.product.title} ({prod.color}) x {prod.count} = ₹
+          {prod.product.price * prod.count}
+        </p>
+      </div>
+    ));
+
+  const showApplyCoupon = () => (
+    <>
+      <input
+        type="text"
+        className="form-control m-1"
+        value={coupon}
+        onChange={(e) => setCoupon(e.target.value)}
+      />
+      <button
+        className="btn btn-primary btn-sm m-2"
+        onClick={applyDiscountCoupon}
+      >
+        Apply
+      </button>
+    </>
+  );
 
   return (
     <div className="row">
-      <div className="col-md-6">
+      <div className="col-md-6 ">
         <br />
         <h4>Delivery Address</h4>
-        <br />
-        {/* little bit change in onchange for react quill */}
-        <ReactQuill theme="snow" value={address} onChange={setAddress} />{" "}
-        <button
-          className="btn btn-primary btn-sm py-0 m-2"
-          onClick={saveAddressToDb}
-        >
-          Save
-        </button>
+        {showAddress()}
         <hr />
-        <h4>Got Coupen</h4>
-        <br />
-        Cpupen input and apply button
+        <h4>Got Coupen?</h4>
+        {showApplyCoupon()}
       </div>
 
       <div className="col-md-6">
+        <br />
         <h4>Order Summary</h4>
         <hr />
         <p>Products {products.length}</p>
         <hr />
-        {products.map((prod, ind) => (
-          <div key={ind}>
-            <p>
-              {prod.product.title} ({prod.color}) x {prod.count} = ₹
-              {prod.product.price * prod.count}
-            </p>
-          </div>
-        ))}
+        {showProductSummary()}
         <hr />
         <p>Cart Total : {total}</p>
         <hr />
         <div className="row">
           <div className="col-md-6">
-            <button className="btn btn-primary btn-sm  m-1" disabled={!addressSaved || !products.length}>Place Order</button>
+            <button
+              className="btn btn-primary btn-sm  m-1"
+              disabled={!addressSaved || !products.length}
+            >
+              Place Order
+            </button>
           </div>
           <div className="col-md-6">
             <button
