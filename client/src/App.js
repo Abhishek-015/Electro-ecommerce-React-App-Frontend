@@ -32,22 +32,16 @@ import SubCategoryHome from "./pages/subCategory/SubCategoryHome";
 import Shop from "./pages/Shop";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
-import CreateCouponPage from "./pages/admin/coupon/CreateCoupon"
+import CreateCouponPage from "./pages/admin/coupon/CreateCoupon";
+import Payment from "./pages/Payement";
 
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useLocation } from "react-router-dom";
 
 //utils import
 import { currentUser } from "../src/utils/auth";
 
 function App() {
-  //to scroll up
-  const location = useLocation();
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location]);
-
   const dispatch = useDispatch();
   //to check firebase auth state
   useEffect(() => {
@@ -121,6 +115,7 @@ function App() {
         <Route exact path="/cart" component={Cart} />
         <UserRoute exact path="/checkout" component={Checkout} />
         <AdminRoute exact path="/admin/coupon" component={CreateCouponPage} />
+        <UserRoute exact path="/payment" component={Payment} />
       </Switch>
     </>
   );

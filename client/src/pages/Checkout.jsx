@@ -11,7 +11,7 @@ import {
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css"; // ES6
 
-const Checkout = () => {
+const Checkout = ({history}) => {
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
   const [address, setAddress] = useState("");
@@ -19,7 +19,7 @@ const Checkout = () => {
   const [coupon, setCoupon] = useState("");
   // discounted price
   const [totalAfterDiscount, setTotalAfterDiscount] = useState(0);
-  // if coupon is not valit
+  // if coupon is not valid
   const [discountError, setDiscountError] = useState("");
 
   const { user } = useSelector((state) => ({ ...state }));
@@ -46,6 +46,8 @@ const Checkout = () => {
     emptyUserCart(user.token).then((res) => {
       setProducts([]);
       setTotal(0);
+      setTotalAfterDiscount(0);
+      setCoupon("");
       toast.success("cart is empty. Continue shopping");
     });
   };
@@ -64,12 +66,15 @@ const Checkout = () => {
     applyCoupon(user.token, coupon).then((res) => {
       if (res.data) {
         setTotalAfterDiscount(res.data);
-        // update redux coupon applied
+        // update redux coupon applied true/false
+        dispatch({ type: "COUPON_APPLIED", payload: true });
       }
       //error
       if (res.data.err) {
         setDiscountError(res.data.err);
+        console.log("not applied")
         //update redux coupon applied
+        dispatch({ type: "COUPON_APPLIED", payload: false });
       }
     });
   };
@@ -105,7 +110,10 @@ const Checkout = () => {
         type="text"
         className="form-control m-1"
         value={coupon}
-        onChange={(e) => setCoupon(e.target.value)}
+        onChange={(e) => {
+          setCoupon(e.target.value);
+          setDiscountError("");
+        }}
       />
       <button
         className="btn btn-primary btn-sm m-2"
@@ -125,6 +133,7 @@ const Checkout = () => {
         <hr />
         <h4>Got Coupen?</h4>
         {showApplyCoupon()}
+        {discountError && <p className="bg-danger h6 p-2">{discountError}</p>}
       </div>
 
       <div className="col-md-6">
@@ -135,13 +144,19 @@ const Checkout = () => {
         <hr />
         {showProductSummary()}
         <hr />
-        <p>Cart Total : {total}</p>
+        <p>Cart Total: ₹{total}</p>
+        {totalAfterDiscount > 0 && (
+          <p className="bg-success p-2 h6">
+            Discount Applied: Total Payable: ₹{totalAfterDiscount}
+          </p>
+        )}
         <hr />
         <div className="row">
           <div className="col-md-6">
             <button
               className="btn btn-primary btn-sm  m-1"
               disabled={!addressSaved || !products.length}
+              onClick={()=>history.push('/payment')}
             >
               Place Order
             </button>
