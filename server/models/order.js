@@ -25,4 +25,8 @@ const OrderSchema = new mongoose.Schema({
     ],
   },
   orderedBy:{type:ObjectId,ref:"User"}
+},{
+    timestamps:true
 });
+
+module.exports = mongoose.model('Order',OrderSchema)
