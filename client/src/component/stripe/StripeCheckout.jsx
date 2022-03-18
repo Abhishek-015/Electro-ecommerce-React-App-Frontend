@@ -7,11 +7,11 @@ import { createPaymentIntent } from "../../utils/stripe";
 import { Card } from "antd";
 import { DollarOutlined, CheckOutlined } from "@ant-design/icons";
 import Laptop from "../../images/computer/laptop.png";
+import { createOrder,emptyUserCart } from "../../utils/user";
 
 const StripeCheckout = ({ history }) => {
   const dispatch = useDispatch();
   const { user, couponApplied } = useSelector((state) => ({ ...state }));
-  
 
   const [succeeded, setSucceeded] = useState(false);
   const [error, setError] = useState(null);
@@ -54,6 +54,24 @@ const StripeCheckout = ({ history }) => {
     } else {
       // here you get results after successful payment
       //create order and save in database for admin to process
+      createOrder(payload, user.token).then((res) => {
+        if (res.data.ok) {
+          //empty cart from local storage
+          if (typeof window !== undefined) localStorage.removeItem("cart");
+          //empty cart from redux
+          dispatch({
+            type: "ADD_TO_CART",
+            payload: [],
+          });
+          //reset coupon to false
+          dispatch({
+            type: "COUPON_APPLIED",
+            payload: false,
+          });
+          //empty cart from database(mongodb)
+          emptyUserCart(user.token);
+        }
+      });
       //empty user cart from redux store and local storage
       console.log(JSON.stringify(payload, null, 4));
       setError(null);
