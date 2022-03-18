@@ -131,7 +131,7 @@ const Checkout = ({history}) => {
         <h4>Delivery Address</h4>
         {showAddress()}
         <hr />
-        <h4>Got Coupen?</h4>
+        <h4>Got Coupon?</h4>
         {showApplyCoupon()}
         {discountError && <p className="bg-danger h6 p-2">{discountError}</p>}
       </div>
