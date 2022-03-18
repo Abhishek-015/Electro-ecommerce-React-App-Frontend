@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-
-
 //middleware
 const {authCheck} = require('../middlewares/auth');
 
