@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 import { showAverage } from "../../utils/rating";
 import _ from "lodash"; //used for remove duplicates
-import {useSelector,useDispatch} from 'react-redux'
+import { useSelector, useDispatch } from "react-redux";
 
 const { Meta } = Card;
 
@@ -15,14 +15,13 @@ const ProductCard = ({ product }) => {
   const [tooltip, setTooltip] = useState("Click to add");
 
   //redux
-  const {user,cart} = useSelector(state=>({...state}))
-  const dispatch = useDispatch()
+  const { user, cart } = useSelector((state) => ({ ...state }));
+  const dispatch = useDispatch();
 
   const handleAddToCart = () => {
     //create cart array
     let cart = [];
     if (typeof window != "undefined") {
-      
       // if cart is in localstorage GET it
       if (localStorage.getItem("cart")) {
         cart = JSON.parse(localStorage.getItem("cart"));
@@ -45,16 +44,15 @@ const ProductCard = ({ product }) => {
 
       //add to redux state
       dispatch({
-        type:"ADD_TO_CART",
-        payload:unique,
-      })
+        type: "ADD_TO_CART",
+        payload: unique,
+      });
 
       //show cart items in side drawer
       dispatch({
-        type:"SET_VISIBLE",
-        payload:true,
-      })
-
+        type: "SET_VISIBLE",
+        payload: true,
+      });
     }
   };
 
@@ -81,11 +79,14 @@ const ProductCard = ({ product }) => {
             <br />
             View Product
           </Link>,
-          <Tooltip title={tooltip}>
-            <a onClick={handleAddToCart}>
+          <Tooltip
+            title={product.quantity < 1 ? "Out of stock" : tooltip}
+            disabled={product.quantity < 1?true:false}
+          >
+            <a onClick={handleAddToCart} disabled={product.quantity===0}>
               <ShoppingCartOutlined className="text-danger" />
               <br />
-              Add to Cart
+              {product.quantity < 1 ? "Out of Stock" : "Add to Cart"}
             </a>
           </Tooltip>,
         ]}
