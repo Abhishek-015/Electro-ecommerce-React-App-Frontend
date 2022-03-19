@@ -1,7 +1,6 @@
 import React from "react";
 
-
-const ShowPaymentInfo = ({ order }) => (
+const ShowPaymentInfo = ({ order, showStatus = true }) => (
   <div>
     {/* {JSON.stringify(order,null,4)} */}
     <p>
@@ -26,9 +25,12 @@ const ShowPaymentInfo = ({ order }) => (
         ).toLocaleString()}
         ,
       </span>{" "}
-      <span className="badge bg-primary text-white">
-        STATUS : {order.orderStatus}
-      </span>{" "}
+      <br />
+      {showStatus && (
+        <span className="badge bg-primary text-white">
+          STATUS : {order.orderStatus}
+        </span>
+      )}
     </p>
   </div>
 );
