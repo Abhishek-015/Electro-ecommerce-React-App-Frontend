@@ -1,6 +1,6 @@
-import React,{useState} from "react";
-import { Card, Tabs,Tooltip } from "antd";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Card, Tabs, Tooltip } from "antd";
+import { Link,useHistory } from "react-router-dom";
 import { HeartOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
@@ -8,11 +8,14 @@ import StarRating from "react-star-ratings";
 
 import laptopImage from "../../images/computer/laptop.png";
 import ProductListItems from "./ProductListItems";
+import { addToWishlist } from "../../utils/user";
+
 import RatingModal from "../modal/RatingModal";
 import { showAverage } from "../../utils/rating";
 
 import _ from "lodash"; //used for remove duplicates
-import {useSelector,useDispatch} from 'react-redux'
+import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 const { TabPane } = Tabs;
 
@@ -22,8 +25,9 @@ const SingleProduct = ({ product, onStarClick, star }) => {
   const [tooltip, setTooltip] = useState("Click to add");
 
   //redux
-  let {user,cart} = useSelector(state=>({...state}))
-  const dispatch = useDispatch()
+  let { user, cart } = useSelector((state) => ({ ...state }));
+  const dispatch = useDispatch();
+  let history = useHistory()
 
   const handleAddToCart = () => {
     //create cart array
@@ -47,11 +51,20 @@ const SingleProduct = ({ product, onStarClick, star }) => {
 
       //add to redux state
       dispatch({
-        type:"ADD_TO_CART",
-        payload:unique,
-      })
+        type: "ADD_TO_CART",
+        payload: unique,
+      });
     }
-  }
+  };
+
+  const handleAddToWishlist = (e) => {
+    e.preventDefault();
+    addToWishlist(product._id, user.token).then((res) => {
+      console.log("Added to wishlist", res.data);
+      toast.success("Added to wishlist")
+      history.push('/user/wishlist')
+    });
+  };
   return (
     <>
       <div className="col-md-7">
@@ -89,16 +102,16 @@ const SingleProduct = ({ product, onStarClick, star }) => {
         <Card
           actions={[
             <Tooltip title={tooltip}>
-            <a onClick={handleAddToCart}>
-              <ShoppingCartOutlined className="text-danger" />
-              <br />
-              Add to Cart
-            </a>
-          </Tooltip>,
-            <Link to="/">
+              <a onClick={handleAddToCart}>
+                <ShoppingCartOutlined className="text-danger" />
+                <br />
+                Add to Cart
+              </a>
+            </Tooltip>,
+            <a onClick={handleAddToWishlist}>
               <HeartOutlined className="text-info" />
               <br /> Add to Wishlist
-            </Link>,
+            </a>,
             <RatingModal>
               <StarRating
                 name={_id}

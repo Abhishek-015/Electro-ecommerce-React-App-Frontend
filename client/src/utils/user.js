@@ -47,7 +47,7 @@ export const applyCoupon = async (authToken, coupon) =>
     }
   );
 
-export const createOrder = async (stripeResponse,authToken) =>
+export const createOrder = async (stripeResponse, authToken) =>
   await axios.post(
     `${process.env.REACT_APP_API}/user/order`,
     { stripeResponse },
@@ -58,9 +58,36 @@ export const createOrder = async (stripeResponse,authToken) =>
     }
   );
 
-  export const getUserOrders = async (authToken) =>
+export const getUserOrders = async (authToken) =>
   await axios.get(`${process.env.REACT_APP_API}/user/orders`, {
     headers: {
       authToken,
     },
   });
+
+export const getWishlist = async (authToken) =>
+  await axios.get(`${process.env.REACT_APP_API}/user/wishlist`, {
+    headers: {
+      authToken,
+    },
+  });
+export const removeWishlist = async (productId, authToken) =>
+  await axios.put(
+    `${process.env.REACT_APP_API}/user/wishlist/${productId}`,
+    {},
+    {
+      headers: {
+        authToken,
+      },
+    }
+  );
+export const addToWishlist = async (productId, authToken) =>
+  await axios.post(
+    `${process.env.REACT_APP_API}/user/wishlist`,
+    { productId },
+    {
+      headers: {
+        authToken,
+      },
+    }
+  );
