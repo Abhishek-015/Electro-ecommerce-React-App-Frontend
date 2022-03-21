@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import ProductCardInCheckout from "../component/cards/ProductCardInCheckout";
 import { userCart } from "../utils/user";
 
-
 const Cart = ({ history }) => {
   const { cart, user } = useSelector((state) => ({ ...state }));
   const dispatch = useDispatch();
@@ -16,7 +15,22 @@ const Cart = ({ history }) => {
   };
 
   const saveOrderToDb = () => {
-    console.log('cart',JSON.stringify(cart,null,4))
+    // console.log("cart", JSON.stringify(cart, null, 4));
+    userCart(cart, user.token)
+      .then((res) => {
+        console.log("CART POST RES", res);
+        if (res.data.ok) history.push("/checkout");
+      })
+      .catch((err) => console.log("cart save error", err));
+  };
+
+  //saveCashOrderToDb
+  const saveCashOrderToDb = () => {
+    // console.log("cart", JSON.stringify(cart, null, 4));
+    dispatch({
+      type: "COD",
+      payload: true,
+    });
     userCart(cart, user.token)
       .then((res) => {
         console.log("CART POST RES", res);
@@ -82,14 +96,25 @@ const Cart = ({ history }) => {
           Total : <b>₹{getTotal()}</b>
           <hr />
           {user ? (
-            <button
-              onClick={saveOrderToDb}
-              className="btn btn-sm btn-primary mt-1 "
-              style={{ border: "none", marginBottom: "10" }}
-              disabled={!cart.length}
-            >
-              Proceed to Checkout
-            </button>
+            <>
+              <button
+                onClick={saveOrderToDb}
+                className="btn btn-sm btn-primary mt-2 "
+                style={{ border: "none", marginBottom: "10" }}
+                disabled={!cart.length}
+              >
+                Proceed to Checkout
+              </button>
+              <br />
+              <button
+                onClick={saveCashOrderToDb}
+                className="btn btn-sm btn-danger mt-2 "
+                style={{ border: "none", marginBottom: "10" }}
+                disabled={!cart.length}
+              >
+                Pay Cash on Delivery
+              </button>
+            </>
           ) : (
             <button
               className="btn btn-sm btn-primary mt-1 "

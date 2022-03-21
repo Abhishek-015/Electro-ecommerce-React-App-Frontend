@@ -3,7 +3,7 @@ import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import ShowPaymentInfo from "../cards/ShowPaymentInfo";
 
 const Orders = ({ orders, handleStatusChange }) => {
-
+   console.log("orders=======>",orders)
     const showOrderInTable = (order) => {
         return (
           <table className="table table-bordered table-hover">
@@ -58,6 +58,7 @@ const Orders = ({ orders, handleStatusChange }) => {
                   name="status"
                 >
                   <option value="Not Processed">Not Processed</option>
+                  <option value="Cash On Delivery">Cash On Delivery</option>
                   <option value="Processing">Processing</option>
                   <option value="Dispatched">Dispatched</option>
                   <option value="Cancelled">Cancelled</option>

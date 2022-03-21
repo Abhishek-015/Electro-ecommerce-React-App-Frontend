@@ -143,6 +143,7 @@ const StripeCheckout = ({ history }) => {
         />
       </div>
       <form id="payment-form" className="stripe-form" onSubmit={handleSubmit}>
+        <p className="text-center bg-light text-warning p-3">Use card No : 4242 4242 4242 4242 for testing puropse</p>
         <CardElement
           id="card-element"
           option={cartStyle}

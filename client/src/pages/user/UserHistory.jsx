@@ -8,15 +8,6 @@ import { getUserOrders } from "../../utils/user";
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import ShowPaymentInfo from "../../component/cards/ShowPaymentInfo";
-// import {
-//   Document,
-//   Page,
-//   // Text,
-//   View,
-//   Stylesheet,
-//   PDFDownloadLink,
-//   PDFViewer,
-// } from "@react-pdf/renderer";
 
 const UserHistory = () => {
   const [orders, setOrders] = useState([]);
@@ -71,28 +62,13 @@ const UserHistory = () => {
     );
   };
 
-  // const showDownloadLink = () => (
-  //   <PDFViewer>
-  //     <Document>
-  //       <Page size="A4">
-  //         <View>
-  //           <Text>section 1</Text>
-  //           <Text>section 2</Text>
-  //         </View>
-  //       </Page>
-  //     </Document>
-  //   </PDFViewer>
-  // );
-
   const showEachOrders = () =>
-    orders.map((order, ind) => {
+    orders.reverse().map((order, ind) => {
       return (
         <div key={ind} className="m-5 p-3 card">
+          {/* {JSON.stringify(order)} */}
           <ShowPaymentInfo order={order} />
           {showOrderInTable(order)}
-          <div className="row">
-            {/* <div className="col">{showDownloadLink()}</div> */}
-          </div>
         </div>
       );
     });
@@ -111,7 +87,6 @@ const UserHistory = () => {
         </div>
       </div>
     </div>
-    // <UserPanel UserNav={UserNav} pageText='User History Page'/>
   );
 };
 

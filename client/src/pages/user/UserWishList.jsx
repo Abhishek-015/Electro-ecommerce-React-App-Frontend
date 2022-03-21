@@ -36,7 +36,7 @@ const UserWishList = () => {
             <h4 className="text-center m-3">Your wishlist</h4>
           {wishlist.map((prod) => (
             <div key={prod._id} className="alert alert-secondary">
-              <Link to={`/product/${prod.slug}`}>{prod.title}</Link>
+              <Link to={`/product/${prod.slug}`} >{prod.title}</Link>
               <span
                 onClick={() => handleRemove(prod._id)}
                 className="btn btn-sm float-right"
