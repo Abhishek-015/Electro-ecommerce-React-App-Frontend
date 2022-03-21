@@ -20,6 +20,11 @@ app.use(morgan("dev"));
 app.use(bodyParser.json({ limit: "2mb" }));
 app.use(cors());
 
+// app.get("/", (req, res, next) => {
+//   res.send({msg : 'hello' })
+//   next();
+// });
+
 //route middlewares---> fs readed all te routes dynamically present inside the routes directorey
 readdirSync("./routes").map((route) =>
   app.use("/api", require("./routes/" + route))
@@ -29,3 +34,10 @@ readdirSync("./routes").map((route) =>
 const port = process.env.PORT || 8000;
 
 app.listen(port, () => console.log(`Server is running on port ${port}`));
+
+// Handle unhandled promise rejections
+process.on('unhandledRejection', (err, promise) => {
+  console.log(`Error: ${err.message}`.red);
+  // Close server & exit process
+  // server.close(() => process.exit(1));
+});
