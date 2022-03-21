@@ -6,6 +6,8 @@ const cart = require("../models/cart");
 const Order = require("../models/order");
 const user = require("../models/user");
 
+const uniqueid = require("uniqueid")
+
 exports.userCart = async (req, res) => {
   console.log(req.body); //{cart:[]}
   const { cart } = req.body;
@@ -117,7 +119,7 @@ exports.applyCouponToUserCart = async (req, res) => {
 };
 
 exports.createOrder = async (req, res) => {
-  const paymentIntent = req.body.stripeResponse;
+  const {paymentIntent} = req.body.stripeResponse;
   const user = await User.findOne({ email: req.user.email }).exec();
   let { products } = await Cart.findOne({ orderedBy: user._id }).exec();
 
@@ -182,3 +184,52 @@ exports.removeFromWishlist = async (req, res) => {
 
   res.json({ ok: true });
 };
+
+//cod
+exports.createCashOrder = async (req, res) => {
+  const {COD,couponApplied} = req.body;
+  //if COD is true , create order with status of Cash On Delivery
+  if(!COD) return res.status(400).send('Create cash order failed')
+  
+  const user = await User.findOne({ email: req.user.email }).exec();
+  let userCart = await Cart.findOne({ orderedBy: user._id }).exec();
+  
+  let finalAmount = 0;
+  if (couponApplied && userCart.totalAfterDiscount) {
+    finalAmount = userCart.totalAfterDiscount * 100;
+  } else {
+    finalAmount = userCart.cartTotal * 100;
+  }
+
+  let newOrder = await new Order({
+    products:userCart.products,
+    paymentIntent:{
+      id:uniqueid(),
+      amount:finalAmount,
+      currency:"INR",
+      status:"Cash On Delivery",
+      created:Date.now(),
+    payment_method_types:['cash'],
+    },
+    orderedBy: user._id,
+    orderStatus:"Cash On Delivery"
+  }).save();
+
+  //decrement the quantity on sold from the total stock we have
+  let bulkOption = userCart.products.map((el) => {
+    return {
+      updateOne: {
+        filter: { _id: el.product._id },
+        update: { $inc: { quantity: -el.count, sold: +el.count } },
+      },
+    };
+  });
+
+  let updated = await Product.bulkWrite(bulkOption, {});
+  // console.log("updated------------>", updated);
+
+  // console.log("NEW ORDER SACVED=======>", newOrder);
+
+  res.json({ ok: true });
+};
+
