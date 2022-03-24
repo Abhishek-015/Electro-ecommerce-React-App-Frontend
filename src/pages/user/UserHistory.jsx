@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 import UserNav from "../../component/nav/UserNav";
-import UserPanel from "./UserUtils";
+// import UserPanel from "./UserUtils";
 import { getUserOrders } from "../../utils/user";
 
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import ShowPaymentInfo from "../../component/cards/ShowPaymentInfo";
 
 const UserHistory = () => {
@@ -30,12 +30,18 @@ const UserHistory = () => {
       <table className="table table-bordered table-hover">
         <thead className="thead-light">
           <tr>
-            <td scope="col">Title</td>
+            {/* <td scope="col">Title</td>
             <td scope="col">Price</td>
             <td scope="col">Brand</td>
             <td scope="col">Color</td>
             <td scope="col">Count</td>
-            <td scope="col">Shipping</td>
+            <td scope="col">Shipping</td> */}
+             <th scope="col">Title</th>
+            <th scope="col">Price</th>
+            <th scope="col">Brand</th>
+            <th scope="col">Color</th>
+            <th scope="col">Count</th>
+            <th scope="col">Shipping</th>
           </tr>
         </thead>
         <tbody>
