@@ -33,10 +33,10 @@ const ProductUpdate = ({ match, history }) => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [subCategoryOption, setSubCategoryOption] = useState([]);
-  const [showSubCategories, setShowSubCategories] = useState(true);
+  const [showSubCategories, ] = useState(true);
   const [subCategoryArray, setSubCategoryArray] = useState([]);
-  const [prePopulateSelectShipping, setPrePopulateSelectShipping] =
-    useState(true);
+  // const [prePopulateSelectShipping, setPrePopulateSelectShipping] =
+  //   useState(true);
 
   const prevCategory = useRef("");
 
@@ -49,10 +49,10 @@ const ProductUpdate = ({ match, history }) => {
     description,
     price,
     category,
-    subCategory,
+    // subCategory,
     shipping,
     quantity,
-    images,
+    // images,
     colors,
     brands,
     color,

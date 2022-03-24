@@ -57,7 +57,7 @@ const StripeCheckout = ({ history }) => {
       createOrder(payload, user.token).then((res) => {
         if (res.data.ok) {
           //empty cart from local storage
-          if (typeof window !== undefined) localStorage.removeItem("cart");
+          if ( typeof window !== undefined) localStorage.removeItem("cart");
           //empty cart from redux
           dispatch({
             type: "ADD_TO_CART",

@@ -9,12 +9,18 @@ const Orders = ({ orders, handleStatusChange }) => {
           <table className="table table-bordered table-hover">
             <thead className="thead-light">
               <tr>
-                <td scope="col">Title</td>
+                {/* <td scope="col">Title</td>
                 <td scope="col">Price</td>
                 <td scope="col">Brand</td>
                 <td scope="col">Color</td>
                 <td scope="col">Count</td>
-                <td scope="col">Shipping</td>
+                <td scope="col">Shipping</td> */}
+                  <th scope="col">Title</th>
+                <th scope="col">Price</th>
+                <th scope="col">Brand</th>
+                <th scope="col">Color</th>
+                <th scope="col">Count</th>
+                <th scope="col">Shipping</th>
               </tr>
             </thead>
             <tbody>

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 import { showAverage } from "../../utils/rating";
 import _ from "lodash"; //used for remove duplicates
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const { Meta } = Card;
 
@@ -15,7 +15,7 @@ const ProductCard = ({ product }) => {
   const [tooltip, setTooltip] = useState("Click to add");
 
   //redux
-  const { user, cart } = useSelector((state) => ({ ...state }));
+  // const { user, cart } = useSelector((state) => ({ ...state }));
   const dispatch = useDispatch();
 
   const handleAddToCart = () => {
@@ -83,7 +83,7 @@ const ProductCard = ({ product }) => {
             title={product.quantity < 1 ? "Out of stock" : tooltip}
             disabled={product.quantity < 1?true:false}
           >
-            <a onClick={handleAddToCart} disabled={product.quantity===0}>
+            <a href="#####" onClick={handleAddToCart} disabled={product.quantity===0}>
               <ShoppingCartOutlined className="text-danger" />
               <br />
               {product.quantity < 1 ? "Out of Stock" : "Add to Cart"}

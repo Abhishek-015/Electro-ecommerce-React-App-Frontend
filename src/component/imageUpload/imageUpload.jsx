@@ -3,7 +3,6 @@ import axios from "axios";
 import Resizer from "react-image-file-resizer";
 import { useSelector } from "react-redux";
 import { Avatar, Badge } from "antd";
-import Item from "antd/lib/list/Item";
 
 const FileUplaod = ({ values, setValues, setLoading }) => {
   const { user } = useSelector((state) => ({ ...state }));

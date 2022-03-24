@@ -25,7 +25,7 @@ const Product = ({ match }) => {
       );
       existingRatingObject && setStar(existingRatingObject.star);
     }
-  });
+  },[]);
 
   const loadSingleProduct = () => {
     getProduct(slug).then((res) => {

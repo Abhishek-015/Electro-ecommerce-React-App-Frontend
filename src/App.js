@@ -98,7 +98,7 @@ function App() {
         currentUser(idTokenResult.token) //frotend is sending token to backend
           .then((res) => {
             //frontend got response as a promise from backend after varifying the token
-            const { name, email, picture, role, _id } = res.data;
+            const {  email, picture, role, _id } = res.data;
             dispatch({
               type: "LOGGED_IN_USER",
               payload: {

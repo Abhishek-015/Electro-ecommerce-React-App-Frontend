@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AdminNav from "../../component/nav/AdminNav";
 import { getOrders, changeStatus } from "../../utils/admin";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 import Orders from "../../component/order/Orders";

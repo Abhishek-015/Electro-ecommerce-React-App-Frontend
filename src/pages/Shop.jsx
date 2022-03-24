@@ -13,7 +13,7 @@ import {
   StarOutlined,
 } from "@ant-design/icons";
 
-const { SubMenu, ItemGroup } = Menu;
+const { SubMenu} = Menu;
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -22,10 +22,10 @@ const Shop = () => {
   const [ok, setOk] = useState(false);
   const [categories, setCategories] = useState([]); //to show categories options in the search/filter sidebar
   const [categoryIds, setCategoryIds] = useState([]);
-  const [star, setStar] = useState("");
+  const [, setStar] = useState("");
   const [subCategories, setSubCategories] = useState([]);
-  const [subCategory, setSubCategory] = useState([]);
-  const [brands, setBrands] = useState([
+  const [, setSubCategory] = useState([]);
+  const [brands,] = useState([
     "Apple",
     "Samsung",
     "Microsoft",
@@ -34,7 +34,7 @@ const Shop = () => {
     "HP",
   ]);
   const [brand, setBrand] = useState("");
-  const [colors, setColors] = useState([
+  const [colors,] = useState([
     "Black",
     "Brown",
     "Silver",
@@ -75,7 +75,9 @@ const Shop = () => {
   }, [text]);
 
   const fetchFilterdProducts = (arg) => {
+    setLoading(true)
     fetchProductsByFilter(arg).then((res) => {
+      setLoading(false)
       console.log(res);
       setProducts(res.data);
     });

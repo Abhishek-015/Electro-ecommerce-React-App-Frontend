@@ -19,7 +19,7 @@ const SideDrawer = () => {
       className="text-center"
       title={`Cart / ${cart.length} Product`}
       placement="right"
-      closable={false} //to not show the cose icon
+      closable={false} //to not show the close icon
       visible={drawer}
       onClose={() => {
         dispatch({
@@ -34,14 +34,14 @@ const SideDrawer = () => {
           <div className="col">
             {product.images[0] ? (
               <>
-                <img src={product.images[0].url} style={imageStyle} />
+                <img alt="fdsagfsg" src={product.images[0].url} style={imageStyle} />
                 <p className="text-center bg-primary text-light mt-1">
                   {product.title} x {product.count}
                 </p>
               </>
             ) : (
               <>
-                <img src={laptopImage} style={imageStyle} />
+                <img  alt="fdsagfsg" src={laptopImage} style={imageStyle} />
                 <p className="text-center bg-primary text-light">
                   {product.title} x {product.count}
                 </p>

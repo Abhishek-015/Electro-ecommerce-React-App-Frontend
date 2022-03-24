@@ -55,13 +55,13 @@ const ProductCreate = () => {
     categories,
     category,
     subCategory,
-    shipping,
+    // shipping,
     quantity,
-    images,
+    // images,
     colors,
     brands,
-    color,
-    brand,
+    // color,
+    // brand,
   } = values;
 
   const handleSubmit = (e) => {

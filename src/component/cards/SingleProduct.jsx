@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Card, Tabs, Tooltip } from "antd";
-import { Link,useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { HeartOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
@@ -25,7 +25,7 @@ const SingleProduct = ({ product, onStarClick, star }) => {
   const [tooltip, setTooltip] = useState("Click to add");
 
   //redux
-  let { user, cart } = useSelector((state) => ({ ...state }));
+  let { user } = useSelector((state) => ({ ...state }));
   const dispatch = useDispatch();
   let history = useHistory()
 
@@ -72,13 +72,13 @@ const SingleProduct = ({ product, onStarClick, star }) => {
           <Carousel showArrows={true} autoPlay infiniteLoop>
             {images &&
               images.map((image) => (
-                <img src={image.url} key={image.public_id} />
+                <img alt="#sss#" src={image.url} key={image.public_id} />
               ))}
           </Carousel>
         ) : (
           <Card
             cover={
-              <img src={laptopImage} className="mb-3 default-card-image" />
+              <img alt="#sss#" src={laptopImage} className="mb-3 default-card-image" />
             }
           ></Card>
         )}
@@ -102,13 +102,13 @@ const SingleProduct = ({ product, onStarClick, star }) => {
         <Card
           actions={[
             <Tooltip title={tooltip}>
-              <a onClick={handleAddToCart}>
+              <a href="####" onClick={handleAddToCart}>
                 <ShoppingCartOutlined className="text-danger" />
                 <br />
                 Add to Cart
               </a>
             </Tooltip>,
-            <a onClick={handleAddToWishlist}>
+            <a  href="####" onClick={handleAddToWishlist}>
               <HeartOutlined className="text-info" />
               <br /> Add to Wishlist
             </a>,

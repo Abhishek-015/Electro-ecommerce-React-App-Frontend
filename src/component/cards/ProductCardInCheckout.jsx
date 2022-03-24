@@ -120,7 +120,7 @@ const ProductCardInCheckout = ({ prod }) => {
               <option>Select</option>
             )}
             {colors
-              .filter((c) => c != prod.color)
+              .filter((c) => c !== prod.color)
               .map((col) => (
                 <option key={col} value={col}>
                   {col}
