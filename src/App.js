@@ -115,7 +115,7 @@ function App() {
       }
     });
     return () => unsubscribe();
-  }, []);
+  }, [null]);
 
   return (
     <Suspense fallback={
