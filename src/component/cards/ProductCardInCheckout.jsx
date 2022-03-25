@@ -71,12 +71,17 @@ const ProductCardInCheckout = ({ prod }) => {
       }
 
       // [1,2,3,4,5,6]
-      cart.map((product, ind) => {
-        if (product._id === prod._id) {
-          cart.splice(ind, 1);
+      for(var i = 0 ;i<cart.length;i++){
+        if(cart[i]._id===prod._id){
+          cart.splice(i,1)
         }
-        return
-      });
+      }
+      // cart.map((product, ind) => {
+      //   if (product._id === prod._id) {
+      //     cart.splice(ind, 1);
+      //   }
+      //   return
+      // });
       localStorage.setItem("cart", JSON.stringify(cart));
       dispatch({
         type: "ADD_TO_CART",
