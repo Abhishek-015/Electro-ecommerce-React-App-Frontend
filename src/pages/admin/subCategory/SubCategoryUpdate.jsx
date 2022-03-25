@@ -35,7 +35,7 @@ const SubCategoryUpdate = ({ match, history }) => {
       })
       .catch((err) => console.log(err));
     loadSubCategory();
-  }, []);
+  }, [slug]);
 
   const handleChange = (e) => setName(e.target.value);
 

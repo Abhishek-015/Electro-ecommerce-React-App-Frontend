@@ -45,7 +45,7 @@ const ProductCreate = () => {
       });
     };
     loadAllCategories();
-  }, []);
+  }, [values]);
 
   // const loadAllCategories = () => {
   //   getCategories().then((cat) => {

@@ -20,7 +20,7 @@ const UserHistory = () => {
       setOrders(res.data);
     });
     loadUserOrders();
-  }, []);
+  }, [user.token]);
 
   // const loadUserOrders = () =>
   //   getUserOrders(user.token).then((res) => {

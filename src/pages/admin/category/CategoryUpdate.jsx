@@ -25,17 +25,17 @@ const CategoryUpdate = ({ history, match }) => {
       .catch((err) => console.log(err));
 
     loadCategory();
-  }, []);
+  }, [slug]);
 
   const handleChange = (e) => setName(e.target.value);
 
-  const loadCategory = () =>
-    getCategory(slug)
-      .then((cat) => {
-        setName(cat.data.category.name);
-        previousCategory.current = cat.data.category.name;
-      })
-      .catch((err) => console.log(err));
+  // const loadCategory = () =>
+  //   getCategory(slug)
+  //     .then((cat) => {
+  //       setName(cat.data.category.name);
+  //       previousCategory.current = cat.data.category.name;
+  //     })
+  //     .catch((err) => console.log(err));
 
   const handleSubmit = (e) => {
     e.preventDefault();

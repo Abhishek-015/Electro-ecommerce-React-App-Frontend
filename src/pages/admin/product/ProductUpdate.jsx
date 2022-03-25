@@ -86,7 +86,7 @@ const ProductUpdate = ({ match, history }) => {
         .catch((err) => toast.error(err.message));
     };
     loadCategories();
-  }, []);
+  }, [category,slug,values]);
 
   const loadProduct = () => {
     getProduct(slug).then((res) => {

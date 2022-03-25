@@ -19,7 +19,7 @@ const AdminDashboard = () => {
       setOrders(res.data);
     });
     loadOrders();
-  }, []);
+  }, [user.token]);
 
   const loadOrders = () =>
   getOrders(user.token).then((res) => {
