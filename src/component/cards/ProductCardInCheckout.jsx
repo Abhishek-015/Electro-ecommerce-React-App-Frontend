@@ -21,12 +21,17 @@ const ProductCardInCheckout = ({ prod }) => {
       if (localStorage.getItem("cart")) {
         cart = JSON.parse(localStorage.getItem("cart"));
       }
-      cart.map((product, ind) => {
-        if (product._id === prod._id) {
-          cart[ind].color = e.target.value;
+      for(var i = 0 ;i<cart.length;i++){
+        if(cart[i]._id===prod._id){
+          cart[i].color=e.target.value
         }
-        return
-      });
+      }
+      // cart.map((product, ind) => {
+      //   if (product._id === prod._id) {
+      //     cart[ind].color = e.target.value;
+      //   }
+      //   return
+      // });
       localStorage.setItem("cart", JSON.stringify(cart));
       dispatch({
         type: "ADD_TO_CART",
@@ -48,12 +53,16 @@ const ProductCardInCheckout = ({ prod }) => {
       if (localStorage.getItem("cart")) {
         cart = JSON.parse(localStorage.getItem("cart"));
       }
-      cart.map((product, ind) => {
-        if (product._id === prod._id) {
-           (cart[ind].count = count);
+      for(var i = 0 ;i<cart.length;i++){
+        if(cart[i]._id===prod._id){
+          cart[i].count=count
         }
-        return
-      });
+      }
+      // cart.map((product, ind) => {
+      //   if (product._id === prod._id) {
+      //      (cart[ind].count = count);
+      //   }
+      // });
       localStorage.setItem("cart", JSON.stringify(cart));
       dispatch({
         type: "ADD_TO_CART",
