@@ -17,7 +17,7 @@ const CategoryUpdate = ({ history, match }) => {
 
   useEffect(() => {
     loadCategory();
-  }, []);
+  }, [loadCategory]);
 
   const handleChange = (e) => setName(e.target.value);
 

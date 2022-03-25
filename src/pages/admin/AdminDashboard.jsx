@@ -12,7 +12,7 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     loadOrders();
-  }, []);
+  }, [loadOrders]);
 
   const loadOrders = () =>
     getOrders(user.token).then((res) => {

@@ -14,7 +14,7 @@ const UserWishList = () => {
 
   useEffect(() => {
     loadWishlist();
-  }, []);
+  }, [loadWishlist]);
 
   const loadWishlist = () =>
     getWishlist(user.token).then((res) => {

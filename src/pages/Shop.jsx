@@ -86,7 +86,7 @@ const Shop = () => {
   //3 Load products based on price range
   useEffect(() => {
     fetchFilterdProducts({ price });
-  }, [ok]);
+  }, [ok,price]);
 
   const handleSlider = (value) => {
     dispatch({

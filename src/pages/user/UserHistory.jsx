@@ -15,7 +15,7 @@ const UserHistory = () => {
 
   useEffect(() => {
     loadUserOrders();
-  }, []);
+  }, [loadUserOrders]);
 
   const loadUserOrders = () =>
     getUserOrders(user.token).then((res) => {

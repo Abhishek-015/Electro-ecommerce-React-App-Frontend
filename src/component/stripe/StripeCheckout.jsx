@@ -35,7 +35,7 @@ const StripeCheckout = ({ history }) => {
       setPayable(payable);
       setTotalAfterDiscount(totalAfterDiscount);
     });
-  }, []);
+  }, [couponApplied,user.token]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -120,6 +120,7 @@ const StripeCheckout = ({ history }) => {
         <Card
           cover={
             <img
+               alt=""
               src={Laptop}
               style={{
                 height: "150px",

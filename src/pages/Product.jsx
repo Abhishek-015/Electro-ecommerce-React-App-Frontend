@@ -16,7 +16,7 @@ const Product = ({ match }) => {
 
   useEffect(() => {
     loadSingleProduct();
-  }, [slug]);
+  }, [slug,loadSingleProduct]);
 
   useEffect(() => {
     if (product.ratings && user) {
@@ -25,7 +25,7 @@ const Product = ({ match }) => {
       );
       existingRatingObject && setStar(existingRatingObject.star);
     }
-  },[]);
+  },[product.ratings,user]);
 
   const loadSingleProduct = () => {
     getProduct(slug).then((res) => {

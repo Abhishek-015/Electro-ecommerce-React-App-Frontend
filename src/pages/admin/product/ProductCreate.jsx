@@ -39,7 +39,7 @@ const ProductCreate = () => {
 
   useEffect(() => {
     loadAllCategories();
-  }, []);
+  }, [loadAllCategories]);
 
   const loadAllCategories = () => {
     getCategories().then((cat) => {

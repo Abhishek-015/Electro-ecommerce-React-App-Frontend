@@ -13,7 +13,7 @@ const BestSellers = () => {
 
   useEffect(() => {
     loadAllProducts();
-  }, [page]);
+  }, [page,loadAllProducts]);
 
   useEffect(() => {
     getProductsCount().then((res) => setProductsCount(res.data));

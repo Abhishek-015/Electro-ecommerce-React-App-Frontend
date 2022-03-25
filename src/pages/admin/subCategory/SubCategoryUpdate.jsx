@@ -21,7 +21,7 @@ const SubCategoryUpdate = ({ match, history }) => {
   useEffect(() => {
     loadCategories();
     loadSubCategory();
-  }, []);
+  }, [loadSubCategory]);
 
   const handleChange = (e) => setName(e.target.value);
 

@@ -62,7 +62,7 @@ const ProductUpdate = ({ match, history }) => {
   useEffect(() => {
     loadProduct();
     loadCategories();
-  }, []);
+  }, [loadCategories,loadProduct]);
 
   const loadProduct = () => {
     getProduct(slug).then((res) => {
