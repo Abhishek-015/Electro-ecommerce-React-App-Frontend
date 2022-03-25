@@ -12,25 +12,37 @@ const BestSellers = () => {
   const [productsCount, setProductsCount] = useState(0);
 
   useEffect(() => {
-    loadAllProducts();
-  }, [page,loadAllProducts]);
+    const loadAllProducts = () => {
+      setLoading(true);
+      getProducts("sold", "desc", page)
+        .then((res) => {
+          setProducts(res.data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          setLoading(false);
+          console.log("home Page show products error --->", err.message);
+        });
+    };
+    loadAllProducts()
+  }, [page]);
 
   useEffect(() => {
     getProductsCount().then((res) => setProductsCount(res.data));
   }, []);
 
-  const loadAllProducts = () => {
-    setLoading(true);
-    getProducts("sold", "desc", page)
-      .then((res) => {
-        setProducts(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log("home Page show products error --->", err.message);
-      });
-  };
+  // const loadAllProducts = () => {
+  //   setLoading(true);
+  //   getProducts("sold", "desc", page)
+  //     .then((res) => {
+  //       setProducts(res.data);
+  //       setLoading(false);
+  //     })
+  //     .catch((err) => {
+  //       setLoading(false);
+  //       console.log("home Page show products error --->", err.message);
+  //     });
+  // };
 
   return (
     <>
