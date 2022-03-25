@@ -22,8 +22,9 @@ const ProductCardInCheckout = ({ prod }) => {
         cart = JSON.parse(localStorage.getItem("cart"));
       }
       cart.map((product, ind) => {
-        if (product._id === prod._id) {
-          cart[ind].color = e.target.value;
+        if(product._id === prod._id) {
+         return cart[ind].color = e.target.value;
+          
         }
       });
       localStorage.setItem("cart", JSON.stringify(cart));
@@ -49,7 +50,7 @@ const ProductCardInCheckout = ({ prod }) => {
       }
       cart.map((product, ind) => {
         if (product._id === prod._id) {
-          cart[ind].count = count;
+         return cart[ind].count = count;
         }
       });
       localStorage.setItem("cart", JSON.stringify(cart));
@@ -71,7 +72,7 @@ const ProductCardInCheckout = ({ prod }) => {
       // [1,2,3,4,5,6]
       cart.map((product, ind) => {
         if (product._id === prod._id) {
-          cart.splice(ind,1)
+         return cart.splice(ind,1)
         }
       });
       localStorage.setItem("cart", JSON.stringify(cart));
