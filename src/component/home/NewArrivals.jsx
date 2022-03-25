@@ -12,26 +12,26 @@ const NewArrivals = () => {
   const [productsCount, setProductsCount] = useState(0);
 
   useEffect(() => {
+    const loadAllProducts = () => {
+      setLoading(true);
+      getProducts("createdAt", "desc", page)
+        .then((res) => {
+          setProducts(res.data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          setLoading(false);
+          console.log("home Page show products error --->", err.message);
+        });
+    };
     loadAllProducts();
-  }, [page,loadAllProducts]);
+  }, [page]);
 
   useEffect(() => {
     getProductsCount().then((res) => setProductsCount(res.data));
   }, []);
 
-  const loadAllProducts = () => {
-    console.log('loading..........')
-    setLoading(true);
-    getProducts("createdAt", "desc", page)
-      .then((res) => {
-        setProducts(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log("home Page show products error --->", err.message);
-      });
-  };
+
 
   return (
     <>

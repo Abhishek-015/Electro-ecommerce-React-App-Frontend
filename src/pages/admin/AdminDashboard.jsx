@@ -10,15 +10,16 @@ const AdminDashboard = () => {
   const [orders, setOrders] = useState([]);
   const { user } = useSelector((state) => ({ ...state }));
 
-  useEffect(() => {
-    loadOrders();
-  }, [loadOrders]);
-
   const loadOrders = () =>
     getOrders(user.token).then((res) => {
       console.log(JSON.stringify(res.data, null, 4));
       setOrders(res.data);
     });
+    
+  useEffect(() => {
+    loadOrders();
+  }, [loadOrders]);
+
 
   const handleStatusChange = (orderId, orderStatus) => {
     changeStatus(orderId, orderStatus, user.token).then((res) => {
