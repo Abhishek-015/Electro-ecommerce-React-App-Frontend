@@ -38,15 +38,21 @@ const ProductCreate = () => {
   const { user } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
+    const loadAllCategories = () => {
+      getCategories().then((cat) => {
+        console.log("dbhsjfh", cat);
+        setValues({ ...values, categories: cat.data });
+      });
+    };
     loadAllCategories();
-  }, [loadAllCategories]);
+  }, []);
 
-  const loadAllCategories = () => {
-    getCategories().then((cat) => {
-      console.log("dbhsjfh", cat);
-      setValues({ ...values, categories: cat.data });
-    });
-  };
+  // const loadAllCategories = () => {
+  //   getCategories().then((cat) => {
+  //     console.log("dbhsjfh", cat);
+  //     setValues({ ...values, categories: cat.data });
+  //   });
+  // };
 
   const {
     title,

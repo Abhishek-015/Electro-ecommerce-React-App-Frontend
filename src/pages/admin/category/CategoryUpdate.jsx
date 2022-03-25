@@ -16,8 +16,16 @@ const CategoryUpdate = ({ history, match }) => {
   const { slug } = match.params;
 
   useEffect(() => {
+    const loadCategory = () =>
+    getCategory(slug)
+      .then((cat) => {
+        setName(cat.data.category.name);
+        previousCategory.current = cat.data.category.name;
+      })
+      .catch((err) => console.log(err));
+
     loadCategory();
-  }, [loadCategory]);
+  }, []);
 
   const handleChange = (e) => setName(e.target.value);
 

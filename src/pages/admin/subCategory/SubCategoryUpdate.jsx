@@ -19,18 +19,14 @@ const SubCategoryUpdate = ({ match, history }) => {
   const { slug } = match.params;
 
   useEffect(() => {
-    loadCategories();
-    loadSubCategory();
-  }, [loadSubCategory]);
-
-  const handleChange = (e) => setName(e.target.value);
-
-  const loadCategories = () =>
+    const loadCategories = () =>
     getCategories()
       .then((cat) => setCategories(cat.data))
       .catch((err) => console.log(err));
 
-  const loadSubCategory = () =>
+    loadCategories();
+
+    const loadSubCategory = () =>
     getSubCategory(slug)
       .then((sub) => {
         console.log(JSON.stringify(sub,null,4))
@@ -38,6 +34,24 @@ const SubCategoryUpdate = ({ match, history }) => {
         setParentCategory(sub.data.subCategory.parent);
       })
       .catch((err) => console.log(err));
+    loadSubCategory();
+  }, []);
+
+  const handleChange = (e) => setName(e.target.value);
+
+  // const loadCategories = () =>
+  //   getCategories()
+  //     .then((cat) => setCategories(cat.data))
+  //     .catch((err) => console.log(err));
+
+  // const loadSubCategory = () =>
+  //   getSubCategory(slug)
+  //     .then((sub) => {
+  //       console.log(JSON.stringify(sub,null,4))
+  //       setName(sub.data.subCategory.name);
+  //       setParentCategory(sub.data.subCategory.parent);
+  //     })
+  //     .catch((err) => console.log(err));
 
   const handleSubmit = (e) => {
     e.preventDefault();

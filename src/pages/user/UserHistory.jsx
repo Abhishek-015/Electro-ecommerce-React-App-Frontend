@@ -14,14 +14,19 @@ const UserHistory = () => {
   const { user } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
-    loadUserOrders();
-  }, [loadUserOrders]);
-
-  const loadUserOrders = () =>
+    const loadUserOrders = () =>
     getUserOrders(user.token).then((res) => {
       // console.log(JSON.stringify(res.data, null, 4));
       setOrders(res.data);
     });
+    loadUserOrders();
+  }, []);
+
+  // const loadUserOrders = () =>
+  //   getUserOrders(user.token).then((res) => {
+  //     // console.log(JSON.stringify(res.data, null, 4));
+  //     setOrders(res.data);
+  //   });
 
   //dispaying orders
 

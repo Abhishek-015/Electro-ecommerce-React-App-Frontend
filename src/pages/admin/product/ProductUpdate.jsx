@@ -60,9 +60,33 @@ const ProductUpdate = ({ match, history }) => {
   } = values;
 
   useEffect(() => {
+    const loadProduct = () => {
+      getProduct(slug).then((res) => {
+        //1 load single product
+        setValues({ ...values, ...res.data });
+        prevCategory.current = res.data.category._id;
+  
+        //2 load single product sub category
+        getCategorySubs(res.data.category._id).then((res) => {
+          setSubCategoryOption(res.data); //on first load ,show default sub category
+        });
+        //3 prepare array of subCategory ids to show as dfefault sub values in ant design select
+        const subCategoryIdArray = [];
+        res.data.subCategory.map((subCat) => subCategoryIdArray.push(subCat._id));
+        setSubCategoryArray((prev) => subCategoryIdArray); //requires for ant design select to work
+      });
+    };
     loadProduct();
+
+    const loadCategories = () => {
+      getCategories(category)
+        .then((res) => {
+          setCategories(res.data);
+        })
+        .catch((err) => toast.error(err.message));
+    };
     loadCategories();
-  }, [loadCategories,loadProduct]);
+  }, []);
 
   const loadProduct = () => {
     getProduct(slug).then((res) => {
@@ -81,13 +105,13 @@ const ProductUpdate = ({ match, history }) => {
     });
   };
 
-  const loadCategories = () => {
-    getCategories(category)
-      .then((res) => {
-        setCategories(res.data);
-      })
-      .catch((err) => toast.error(err.message));
-  };
+  // const loadCategories = () => {
+  //   getCategories(category)
+  //     .then((res) => {
+  //       setCategories(res.data);
+  //     })
+  //     .catch((err) => toast.error(err.message));
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();

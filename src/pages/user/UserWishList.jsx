@@ -13,8 +13,12 @@ const UserWishList = () => {
   const { user } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
+    const loadWishlist = () =>
+    getWishlist(user.token).then((res) => {
+      setWishlist(res.data.wishlist);
+    });
     loadWishlist();
-  }, [loadWishlist]);
+  }, []);
 
   const loadWishlist = () =>
     getWishlist(user.token).then((res) => {
