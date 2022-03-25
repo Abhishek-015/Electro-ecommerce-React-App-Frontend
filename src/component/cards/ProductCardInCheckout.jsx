@@ -25,6 +25,7 @@ const ProductCardInCheckout = ({ prod }) => {
         if (product._id === prod._id) {
           cart[ind].color = e.target.value;
         }
+        return
       });
       localStorage.setItem("cart", JSON.stringify(cart));
       dispatch({
@@ -43,27 +44,28 @@ const ProductCardInCheckout = ({ prod }) => {
       return;
     }
     let cart = [];
-    if (typeof window !== "undefined") {
+    
       if (localStorage.getItem("cart")) {
         cart = JSON.parse(localStorage.getItem("cart"));
       }
       cart.map((product, ind) => {
         if (product._id === prod._id) {
-          return (cart[ind].count = count);
+           (cart[ind].count = count);
         }
+        return
       });
       localStorage.setItem("cart", JSON.stringify(cart));
       dispatch({
         type: "ADD_TO_CART",
         payload: cart,
       });
-    }
+    
   };
 
   const handleRemove = () => {
     // console.log(prod._id);
     let cart = [];
-    if (typeof window !== "undefined") {
+  
       if (localStorage.getItem("cart")) {
         cart = JSON.parse(localStorage.getItem("cart"));
       }
@@ -71,15 +73,16 @@ const ProductCardInCheckout = ({ prod }) => {
       // [1,2,3,4,5,6]
       cart.map((product, ind) => {
         if (product._id === prod._id) {
-          return cart.splice(ind, 1);
+          cart.splice(ind, 1);
         }
+        return
       });
       localStorage.setItem("cart", JSON.stringify(cart));
       dispatch({
         type: "ADD_TO_CART",
         payload: cart,
       });
-    }
+    
   };
 
   return (
