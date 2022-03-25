@@ -131,7 +131,7 @@ const Checkout = ({ history }) => {
       //empty cart from redux, local storage, reset Coupon,reset COD,redirect
       if(res.data.ok){
         //empty local storage
-    if(typeof window !=undefined) localStorage.removeItem('cart')
+    localStorage.removeItem('cart')
         //empty redux cart
         dispatch({
           type:'ADD_TO_CART',
