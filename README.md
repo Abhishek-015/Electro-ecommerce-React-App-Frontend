@@ -1,70 +1,53 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+>  Electro Commerce is a e-commerece  platform that enables you to explore your interest in different electronic gadgets with various filter options provided to users and easy order history update.
 
-## Available Scripts
 
-In the project directory, you can run:
 
-### `npm start`
+## Demo
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+>Link - https://mern-rv-ecommerce.netlify.app/
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+ 
+  
+# Technology
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- ReactJS Redux Firebase MongoDb Express Node Bootstrap Ant-design CSS React-toolkit
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  
+## Features
 
-### `npm run eject`
+- Social sign-In and sign-out with firebase-google authentication with Redux(Frontend) and firebase auth check (backend).
+- Advance real-time searching and filtering functionality with pagination.
+- React-star-rating system that gives you an dynamic average of all rating given by users.
+- User Admin and Protected Routes 
+- Complete Product CRUD operation from client side that enables admin to perform creation, updation and deletion on Product, category, subcategory, brands and others.
+- Admin dashboard and order management system
+- User dashboard with wishlist, purchase history, etc
+- Cart functionality with both backend/frontend implementation  with other features like coupon, checkout , address filling etc
+- Checkout with stripe for credit card payments
+- Checkout with cash on delivery (no online payment required
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## A Glimpse of our cloned website
 
-## Learn More
+# Home Page
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+  
+  
+## Contact
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Feel free to reach me ->
+- Email - <abhishek404singh@gmail.com> 
+- LinkedIn - https://www.linkedin.com/in/abhishek-singh-096211216/
+- Twitter - https://twitter.com/rvabhisingh
