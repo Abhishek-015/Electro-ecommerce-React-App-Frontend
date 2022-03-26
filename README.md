@@ -5,7 +5,7 @@
 
 ## Demo
 
->Link -https://react-full-fledged-ecommerce-app-8h6u0avm1-abhishek-015.vercel.app/
+>Link -https://react-full-fledged-ecommerce-app.vercel.app/
 
 
 
