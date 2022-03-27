@@ -1,19 +1,19 @@
 
-## Electro-Ecommerce  -  MERN
+# Electro-Ecommerce -  MERN
 
 >  Electro Eommerce is a e-commerece  platform that enables you to explore your interest in different electronic gadgets with various filter options provided to users and easy order history update.
 
-# Demo
+## Demo
 
 >Link -https://react-full-fledged-ecommerce-app.vercel.app/
 
 
-# Tech-stack and framework
+## Tech-stack and framework
 
 - ReactJS Redux Firebase MongoDb Express Node Bootstrap Ant-design CSS React-toolkit
 
 
-# Features
+## Features
 
 - Social sign-In and sign-out with firebase-google authentication with Redux(Frontend) and firebase auth check (backend).
 - Advance real-time searching and filtering functionality with pagination.
@@ -82,7 +82,7 @@
 
 
 
-# User dashboard
+## User dashboard
 
 
 - User History
@@ -96,7 +96,7 @@
 
 
 
-# Admin dashboard and CRUD operation
+## Admin dashboard and CRUD operation
 
 ![AdminDashboard](https://user-images.githubusercontent.com/87438535/160277857-5b0b0beb-1976-4276-93f0-f8cd09282a77.png)
 
