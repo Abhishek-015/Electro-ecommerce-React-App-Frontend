@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
-import { Menu,Badge } from "antd";
+import { Menu, Badge } from "antd";
 import {
   AppstoreOutlined,
   SettingOutlined,
@@ -9,7 +9,7 @@ import {
   UserOutlined,
   LogoutOutlined,
   ShoppingOutlined,
-  ShoppingCartOutlined
+  ShoppingCartOutlined,
 } from "@ant-design/icons";
 
 import { auth } from "../../firebase/firbase";
@@ -18,11 +18,15 @@ import Search from "../forms/search";
 
 const { SubMenu } = Menu;
 
+const menuItemStyle = {
+  marginLeft:"auto"
+}
+
 const Header = () => {
   const [current, setCurrent] = useState("home");
   const dispatch = useDispatch();
   const history = useHistory();
-  const { user,cart } = useSelector((state) => ({ ...state }));
+  const { user, cart } = useSelector((state) => ({ ...state }));
 
   const handleClick = (e) => {
     setCurrent(e.key);
@@ -47,22 +51,28 @@ const Header = () => {
       </Menu.Item>
       <Menu.Item key="cart" icon={<ShoppingCartOutlined />}>
         <Link to="/cart">
-          <Badge count={cart.length} offset={[9,0]}>
+          <Badge count={cart.length} offset={[9, 0]}>
             Cart
           </Badge>
         </Link>
       </Menu.Item>
+      <Menu.Item style={menuItemStyle}>
+        <Search />
+      </Menu.Item>
+
       {!user && (
         <Menu.Item
           key="register"
           icon={<UserAddOutlined />}
-          className="float-right"
+          // className="float-right"
+          // style={menuItemStyle}
         >
           <Link to="/register">Register</Link>
         </Menu.Item>
       )}
       {!user && (
-        <Menu.Item key="login" icon={<UserOutlined />} className="float-right">
+        <Menu.Item key="login" icon={<UserOutlined />} 
+        >
           <Link to="/login">Login</Link>
         </Menu.Item>
       )}
@@ -71,7 +81,6 @@ const Header = () => {
           key="username"
           icon={<SettingOutlined />}
           title={user.email.split("@")[0]}
-          className="float-right"
         >
           {user && user.role === "admin" && (
             <Menu.Item>
@@ -89,9 +98,7 @@ const Header = () => {
           </Menu.Item>
         </SubMenu>
       )}
-      <span className="float-right p-1">
-        <Search />
-      </span>
+      
     </Menu>
   );
 };
